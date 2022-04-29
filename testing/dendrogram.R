@@ -1,3 +1,5 @@
+library(coda.base)
+library(data.table)
 hclust_dendrogram = function(B){
   MERGE = matrix(0, nrow = ncol(B), ncol = 2)
   ORD = order(colSums(B != 0))
@@ -119,8 +121,10 @@ den = function(X, B){
   }
   d
 }
+
+X = parliament2017[,2:6]
 B = cdp_basis(ncol(X))
-SIGMA = cov(coord(X, B))
+SIGMA = cov(coordinates(X, B))
 p.sigma = prop.table(diag(SIGMA))
 
 dplot = den(X, B)
