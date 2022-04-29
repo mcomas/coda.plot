@@ -1,4 +1,5 @@
 library(ggtern)
+library(tidyverse)
 coda_segment = function(A, B, steps = 100, NMS = c('x','y','z')){
   require(tidyverse)
   tibble(s = c(0, ppoints(steps), 1)) %>%
