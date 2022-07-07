@@ -1,7 +1,7 @@
 Package: coda.plot
 Type: Package
 Title: Compositional Data Related Plots
-Version: 0.1.0
+Version: 0.1.4
 Authors@R: c(person("Marc", "Comas-Cufí", role = c("aut", "cre"), 
                     email = "mcomas@imae.udg.edu", comment = c(ORCID = "0000-0001-9759-0622")))
 Description: Easy to run function to built visualisations by means of ggplot2 objects.
@@ -10,4 +10,4 @@ License: GPL
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
