@@ -1,12 +1,4 @@
-geometric_mean_dplot = function(X, group){
-  LOG = log(as.data.table(X))
-  LOG$group = group
-  dlong = melt(LOG, measure.vars = 1:ncol(X))
-  all_mean = dlong[,.(gmean=mean(value, na.rm = TRUE)), .(variable)]
-  dplot = merge(dlong, all_mean)
-  return(dplot)
 
-}
 #' @export
 geometric_mean_bar_plot = function(X, group, group_label = "", type = 'bar',
                                    title = 'Geometric mean bar plot', xlab = '', ylab = ''){

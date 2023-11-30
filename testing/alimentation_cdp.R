@@ -16,3 +16,4 @@ group = alimentation$NorthMed
 geometric_mean_bar_plot(X, group)
 geometric_mean_bar_plot(X, group, type = 'box')
 
+clr_biplot(df[,5:10], group = df$group)
