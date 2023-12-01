@@ -1,4 +1,3 @@
-#' @export
 geometric_mean_data = function(X, group){
   if(!is.matrix(X)){
     X = as.matrix(X)
@@ -19,6 +18,19 @@ geometric_mean_data = function(X, group){
   return(dplot)
 
 }
+#' Geometric Mean Barplot
+#'
+#'
+#' @param X Composition Matrix
+#'
+#' @param group Groups to compare
+#' @param group_label Label for groups
+#' @param title Plot title
+#' @param xlab X label
+#' @param ylab Y label
+#' @param facets Should the barplot be separated by facets.
+#' @param x_show_parts Should the barplots show the relation within parts.
+#'
 #' @export
 geometric_mean_barplot = function(X, group, group_label = "",
                                   title = 'Geometric mean bar plot',
