@@ -1,4 +1,3 @@
-#' @export
 center_data = function(X, group){
   if(!is.matrix(X)){
     X = as.matrix(X)
@@ -19,7 +18,6 @@ center_data = function(X, group){
   return(dplot)
 
 }
-#' @export
 center_barplot = function(X, group, group_label = "",
                                   title = 'Center bar plot',
                                   xlab = '',
