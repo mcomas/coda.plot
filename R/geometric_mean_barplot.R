@@ -1,4 +1,5 @@
-geometric_mean_dplot = function(X, group){
+#' @export
+geometric_mean_data = function(X, group){
   if(!is.matrix(X)){
     X = as.matrix(X)
   }
@@ -24,7 +25,7 @@ geometric_mean_barplot = function(X, group, group_label = "",
                                   xlab = '',
                                   ylab = 'ln(group mean)-ln(overall mean)',
                                   facets = TRUE, x_show_parts = TRUE){
-  dplot = geometric_mean_dplot(X, group)
+  dplot = geometric_mean_data(X, group)
   if(x_show_parts){
     if(facets){
       p = ggplot() +
