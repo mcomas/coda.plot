@@ -4,7 +4,13 @@
 \alias{clr_biplot}
 \title{Compositional clr-biplot}
 \usage{
-clr_biplot(X, alpha = 1, col_group = NULL, shape_group = NULL)
+clr_biplot(
+  X,
+  alpha = NULL,
+  biplot_type = "covariance",
+  col_group = NULL,
+  shape_group = NULL
+)
 }
 \arguments{
 \item{X}{Compositional data}

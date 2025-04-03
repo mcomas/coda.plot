@@ -7,7 +7,19 @@
 #'
 #' @return a ggplot object with the biplot
 #' @export
-clr_biplot = function(X, alpha = 1, col_group = NULL, shape_group = NULL){
+clr_biplot = function(X, alpha = NULL, biplot_type ='covariance', col_group = NULL, shape_group = NULL){
+  if(is.null(alpha)){
+    if(biplot_type == 'form' | biplot_type == 'covariance'){
+      if(biplot_type == 'form'){
+        alpha = 1
+      }
+      if(biplot_type == 'covariance'){
+        alpha = 0
+      }
+    }else{
+      stop("Select between covariance and form biplot_type")
+    }
+  }
   if(!is.matrix(X)){
     X = as.matrix(X)
   }
