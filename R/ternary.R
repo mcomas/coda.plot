@@ -1,7 +1,7 @@
 #' Ternary diagram
 #'
 #' @param X Compositional data
-#' @param groups Colorize according to this vector
+#' @param group Colorize according to this vector
 #' @param center Should the data be centered?
 #' @param scale Should the data be scaled to have unit variance?
 #' @return a ggtern object with the ternary diagram
