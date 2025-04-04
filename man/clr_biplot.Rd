@@ -2,30 +2,34 @@
 % Please edit documentation in R/clr_ciplot.R
 \name{clr_biplot}
 \alias{clr_biplot}
-\title{Compositional clr-biplot}
+\title{Compositional CLR Biplot}
 \usage{
 clr_biplot(
   X,
-  alpha = NULL,
+  group = NULL,
   biplot_type = "covariance",
-  col_group = NULL,
+  alpha = NULL,
   shape_group = NULL
 )
 }
 \arguments{
-\item{X}{Compositional data}
+\item{X}{A matrix or data frame containing compositional data.}
 
-\item{alpha}{Numeric values between 0 and 1, default alpha=1 (0: covariance biplot, 1: form biplot)}
+\item{group}{factor used to color the observations.}
 
-\item{biplot_type}{'covariance' or 'form'?}
+\item{biplot_type}{Character string specifying the type of biplot. Either `"covariance"` (default) or `"form"`.}
 
-\item{col_group}{Factor used to colorise observations}
+\item{alpha}{Optional numeric value between 0 and 1. If provided, this overrides \code{biplot_type}. Controls the type of biplot:
+\itemize{
+  \item 0 = covariance biplot
+  \item 1 = form biplot
+}}
 
-\item{shape_group}{Factor used to shape observations}
+\item{shape_group}{Optional factor used to assign shapes to the observations.}
 }
 \value{
-a ggplot object with the biplot
+A \code{ggplot} object displaying the biplot.
 }
 \description{
-Compositional clr-biplot
+Generates a centered log-ratio (CLR) biplot for compositional data.
 }

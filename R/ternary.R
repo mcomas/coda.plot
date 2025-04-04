@@ -6,7 +6,7 @@
 #' @param scale Should the data be scaled to have unit variance?
 #' @return a ggtern object with the ternary diagram
 #' @export
-ternary = function(X, groups = NULL, center = FALSE, scale = FALSE){
+ternary = function(X, group = NULL, center = FALSE, scale = FALSE){
   if(!is.matrix(X)){
     X = as.matrix(X)
   }
@@ -19,15 +19,15 @@ ternary = function(X, groups = NULL, center = FALSE, scale = FALSE){
   }
   dplot = as.data.frame(matrix(X, ncol = ncol(X)))
   names(dplot) = c('c1', 'c2','c3')
-  if(is.null(groups)){
+  if(is.null(group)){
     p = ggtern(data = dplot) +
       geom_mask() +
       suppressWarnings(geom_point(aes(x=c2, y=c1, z=c3))) +
       theme_bw()
   }else{
-    dplot$group = groups
+    dplot$group = group
     p = ggtern(data = dplot) +
-      geom_mask() +
+      #geom_mask() +
       suppressWarnings(geom_point(aes(x=c2, y=c1, z=c3, col=group))) +
       theme_bw() +
       labs(color = '')

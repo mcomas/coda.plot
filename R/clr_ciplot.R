@@ -1,14 +1,21 @@
-#' Compositional clr-biplot
+#' Compositional CLR Biplot
 #'
-#' @param X Compositional data
-#' @param alpha Numeric values between 0 and 1, default alpha=1 (0: covariance biplot, 1: form biplot)
-#' @param biplot_type 'covariance' or 'form'?
-#' @param col_group Factor used to colorise observations
-#' @param shape_group Factor used to shape observations
+#' Generates a centered log-ratio (CLR) biplot for compositional data.
 #'
-#' @return a ggplot object with the biplot
+#' @param X A matrix or data frame containing compositional data.
+#' @param group factor used to color the observations.
+#' @param biplot_type Character string specifying the type of biplot. Either `"covariance"` (default) or `"form"`.
+#' @param alpha Optional numeric value between 0 and 1. If provided, this overrides \code{biplot_type}. Controls the type of biplot:
+#'   \itemize{
+#'     \item 0 = covariance biplot
+#'     \item 1 = form biplot
+#'   }
+#' @param shape_group Optional factor used to assign shapes to the observations.
+#'
+#' @return A \code{ggplot} object displaying the biplot.
 #' @export
-clr_biplot = function(X, alpha = NULL, biplot_type ='covariance', col_group = NULL, shape_group = NULL){
+clr_biplot = function(X, group = NULL, biplot_type = 'covariance',
+                      alpha = NULL, shape_group = NULL){
   if(is.null(alpha)){
     if(biplot_type == 'form' | biplot_type == 'covariance'){
       if(biplot_type == 'form'){
@@ -56,18 +63,18 @@ clr_biplot = function(X, alpha = NULL, biplot_type ='covariance', col_group = NU
   dF = as.data.frame(FX)
   dG = as.data.frame(GX)
   dG$text = sprintf("clr(%s)", colnames(X))
-  if(is.null(col_group) & is.null(shape_group)){
+  if(is.null(group) & is.null(shape_group)){
     p = ggplot() +
       geom_point(data = dF, aes(x = x, y = y))
   }else{
-    if(!is.null(col_group) & !is.null(shape_group)){
-      dF$col = col_group
+    if(!is.null(group) & !is.null(shape_group)){
+      dF$col = group
       dF$shape = shape_group
       p = ggplot() +
         geom_point(data = dF, aes(x = x, y = y, col = col, shape = shape))
     }else{
-      if(!is.null(col_group)){
-        dF$col = col_group
+      if(!is.null(group)){
+        dF$col = group
         p = ggplot() +
           geom_point(data = dF, aes(x = x, y = y, col = col))
       }

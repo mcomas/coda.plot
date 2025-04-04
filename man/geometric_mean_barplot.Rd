@@ -10,28 +10,31 @@ geometric_mean_barplot(
   group_label = "",
   title = "Geometric mean bar plot",
   xlab = "",
-  ylab = "ln(group mean)-ln(overall mean)",
-  facets = TRUE,
-  x_show_parts = TRUE
+  ylab = "ln(group gmean)-ln(overall gmean)",
+  x_show_parts = TRUE,
+  clr_scale = FALSE
 )
 }
 \arguments{
-\item{X}{Composition Matrix}
+\item{X}{A matrix or data frame representing compositional data.}
 
-\item{group}{Groups to compare}
+\item{group}{An optional factor indicating groups for comparison.}
 
-\item{group_label}{Label for groups}
+\item{group_label}{A character string used as the label for the grouping variable in the legend.}
 
-\item{title}{Plot title}
+\item{title}{A character string specifying the plot title.}
 
-\item{xlab}{X label}
+\item{xlab}{A character string specifying the label for the x-axis.}
 
-\item{ylab}{Y label}
+\item{ylab}{A character string specifying the label for the y-axis.}
 
-\item{facets}{Should the barplot be separated by facets.}
+\item{x_show_parts}{Logical. If \code{TRUE}, the x-axis shows parts to visualize the relative contributions within the composition.}
 
-\item{x_show_parts}{Should the barplots show the relation within parts.}
+\item{clr_scale}{Should the clr coordinates be compared?}
+}
+\value{
+A \code{ggplot} object representing the barplot.
 }
 \description{
-Geometric Mean Barplot
+Creates a barplot of the geometric mean of compositional parts.
 }

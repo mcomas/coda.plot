@@ -4,16 +4,16 @@
 \alias{ternary}
 \title{Ternary diagram}
 \usage{
-ternary(X, groups = NULL, center = FALSE, scale = FALSE)
+ternary(X, group = NULL, center = FALSE, scale = FALSE)
 }
 \arguments{
 \item{X}{Compositional data}
 
-\item{groups}{Colorize according to this vector}
-
 \item{center}{Should the data be centered?}
 
 \item{scale}{Should the data be scaled to have unit variance?}
+
+\item{groups}{Colorize according to this vector}
 }
 \value{
 a ggtern object with the ternary diagram

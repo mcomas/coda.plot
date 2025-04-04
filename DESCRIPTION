@@ -1,14 +1,16 @@
 Package: coda.plot
 Type: Package
-Title: Compositional Data Related Plots
+Title: Plots for Compositional Data
 Version: 0.1.8
 Date: 2025-04-03
 Authors@R: c(person("Marc", "Comas-Cufí", role = c("aut", "cre"), 
                     email = "mcomas@imae.udg.edu", comment = c(ORCID = "0000-0001-9759-0622")))
-Description: Easy to run function to built visualisations by means of ggplot2 objects.
+Description: Provides a collection of easy-to-use functions for creating 
+    visualizations of compositional data using ggplot2. Includes support 
+    for common plotting techniques in compositional data analysis.
 Depends: R (>= 3.5), coda.base
 License: GPL
 Encoding: UTF-8
-Imports: ggplot2, grid, methods, latex2exp
+Imports: ggplot2, ggtern
 LazyData: true
 RoxygenNote: 7.3.2
