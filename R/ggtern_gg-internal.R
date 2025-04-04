@@ -64,9 +64,7 @@
                            'table_add_legends',
                            'table_add_tag'
                            )
-  .functions.gridExtra  = c('latticeGrob')
-    .functions          = rbind(data.frame(p='ggplot2',  f=unique(.functions.ggplot2)),
-                                data.frame(p='gridExtra',f=unique(.functions.gridExtra)))
+    .functions          = data.frame(p='ggplot2',  f=unique(.functions.ggplot2))
 
     structure(
       mapply(function(f,p){ getFromNamespace(f,p) },as.character(.functions$f), as.character(.functions$p)),

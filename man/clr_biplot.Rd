@@ -17,6 +17,8 @@ clr_biplot(
 
 \item{alpha}{Numeric values between 0 and 1, default alpha=1 (0: covariance biplot, 1: form biplot)}
 
+\item{biplot_type}{'covariance' or 'form'?}
+
 \item{col_group}{Factor used to colorise observations}
 
 \item{shape_group}{Factor used to shape observations}

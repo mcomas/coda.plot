@@ -2,7 +2,7 @@
 % Please edit documentation in R/ggtern_gg-internal.R
 \name{.getFunctions}
 \alias{.getFunctions}
-\title{OLD FUNCTIONS  
+\title{OLD FUNCTIONS
 new_panel','train_layout','train_position','train_ranges','map_position','map_layout','reset_scales','facet_render',
 xlabel','ylabel'
 expand_default', ## REMOVED}
@@ -10,7 +10,7 @@ expand_default', ## REMOVED}
 .getFunctions()
 }
 \description{
-OLD FUNCTIONS  
+OLD FUNCTIONS
 new_panel','train_layout','train_position','train_ranges','map_position','map_layout','reset_scales','facet_render',
 xlabel','ylabel'
 expand_default', ## REMOVED

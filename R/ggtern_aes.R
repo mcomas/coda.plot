@@ -32,10 +32,10 @@ find_global_tern <- function (name, env=environment(),mode='any'){
     return(get(name, envir = env, mode = mode))
   }
 
-  nsenv <- asNamespace("ggtern")
-  if(exists(name, envir = nsenv, mode=mode)){
-    return(get(name, envir = nsenv, mode = mode))
-  }
+  # nsenv <- asNamespace("ggtern")
+  # if(exists(name, envir = nsenv, mode=mode)){
+  #   return(get(name, envir = nsenv, mode = mode))
+  # }
 
   nsenv <- asNamespace("ggplot2")
   if(exists(name, envir = nsenv, mode=mode)){

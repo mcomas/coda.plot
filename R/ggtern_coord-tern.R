@@ -704,7 +704,7 @@ view_scales_from_scale <- function(scale, coord_limits = NULL, expand = TRUE, ex
                        gp            = grid::gpar(col     = e$colour %||% 'transparent',
                                             lty     = e$linetype,
                                             lineend = 'butt',
-                                            lwd     = (e$linewidth %||% 0)*.pt)
+                                            lwd     = (e$linewidth %||% 0)*ggplot2::.pt)
           )
         })
         items = c(items,g)

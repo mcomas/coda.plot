@@ -44,10 +44,10 @@ find_global_tern <- function (name, env=environment(),mode='any'){
     return(get(name, envir = env, mode = mode))
   }
 
-  nsenv <- asNamespace("ggtern")
-  if(exists(name, envir = nsenv, mode=mode)){
-    return(get(name, envir = nsenv, mode = mode))
-  }
+  # nsenv <- asNamespace("ggtern")
+  # if(exists(name, envir = nsenv, mode=mode)){
+  #   return(get(name, envir = nsenv, mode = mode))
+  # }
 
   nsenv <- asNamespace("ggplot2")
   if(exists(name, envir = nsenv, mode=mode)){
@@ -98,10 +98,7 @@ breaks_tern = function(limits = c(0,1), isMajor = TRUE, n = 5){
 }
 
 
-getBreaks = function(limits = c(0,1), isMajor = TRUE, n = 5){
-  tern_dep("2.1.4","'getBreaks' has been superceded by the 'breaks' function")
-  breaks_tern(limits,isMajor,n)
-}
+
 
 labels_tern = function(limits = c(0,1), breaks = breaks_tern(limits), format = "%g", factor = 100){
   if(!is.numeric(breaks))
@@ -126,35 +123,6 @@ labels_tern = function(limits = c(0,1), breaks = breaks_tern(limits), format = "
   result
 }
 
-getLabels = function(limits = c(0,1), breaks = breaks_tern(limits), format = "%g", factor = 100){
-  tern_dep("2.1.4","'getBreaks' has been superceded by the 'breaks' function")
-  labels_tern(limits,breaks,format,factor)
-}
-
-tern_dep <- function(version, msg) {
-  v <- as.package_version(version)
-  cv <- packageVersion("ggtern")
-
-  # If current major number is greater than last-good major number, or if
-  #  current minor number is more than 1 greater than last-good minor number,
-  #  give error.
-  if (cv[[1,1]] > v[[1,1]]  ||  cv[[1,2]] > v[[1,2]] + 1) {
-    stop(msg, " (Defunct; last used in version ", version, ")",
-         call. = FALSE)
-
-    # If minor number differs by one, give warning
-  } else if (cv[[1,2]] > v[[1,2]]) {
-    warning(msg, " (Deprecated; last used in version ", version, ")",
-            call. = FALSE)
-
-    # If only subminor number is greater, give message
-  } else if (cv[[1,3]] > v[[1,3]]) {
-    message(msg, " (Deprecated; last used in version ", version, ")")
-  }
-
-  invisible()
-}
-
 #internal
 .makeValid <- function(x){
   x = x[[1]]
@@ -166,6 +134,11 @@ tern_dep <- function(version, msg) {
   x
 }
 
+.trimAndPad <- function(x){
+  x = gsub("^(\\s+)","",gsub("(\\s+)$","",x))
+  if(nchar(x) == 1) x = sprintf(" %s ",x)
+  x
+}
 
 arrow_label_formatter             = function(label,suffix=NULL,sep="/",...) UseMethod("arrow_label_formatter")
 
@@ -190,6 +163,7 @@ arrow_label_formatter.character   = function(label,suffix=NULL,sep="/",latex = F
   if(latex[1]) result = TeX(result)
   result
 }
+
 .trimAndPad <- function(x){
   x = gsub("^(\\s+)","",gsub("(\\s+)$","",x))
   if(nchar(x) == 1) x = sprintf(" %s ",x)

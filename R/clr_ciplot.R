@@ -2,6 +2,7 @@
 #'
 #' @param X Compositional data
 #' @param alpha Numeric values between 0 and 1, default alpha=1 (0: covariance biplot, 1: form biplot)
+#' @param biplot_type 'covariance' or 'form'?
 #' @param col_group Factor used to colorise observations
 #' @param shape_group Factor used to shape observations
 #'

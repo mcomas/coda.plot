@@ -1,19 +1,17 @@
 library(coda.plot)
-df = readxl::read_excel("~/Software/CoDaPack/data/milkcows.xls")
-X = df[,5:10]
-group = df$group
-geometric_mean_bar_plot(X, group)
-geometric_mean_bar_plot(X, group, type = 'line')
-geometric_mean_bar_plot(X, group, type = 'box')
+X = milk_cows[,5:10]
+group = milk_cows$group
+geometric_mean_barplot(X, group, x_show_parts = F, facets = T)
+# geometric_mean_barplot(X, group, type = 'line')
+# geometric_mean_barplot(X, group, type = 'box')
 
-biplot_form(X, group)
+# biplot_form(X, group)
 
-library(coda.base)
-alimentation = read_cdp("~/Software/CoDaPack/data/alimentation.cdp")
-
-X = alimentation[,2:10]
+X = alimentation[,1:9]
 group = alimentation$NorthMed
-geometric_mean_bar_plot(X, group)
-geometric_mean_bar_plot(X, group, type = 'box')
+geometric_mean_barplot(X, group)
+geometric_mean_barplot(X, group, x_show_parts = F) +
+  guides(fill = guide_legend(nrow = 1)) +
+  theme(legend.position = 'top')
 
 clr_biplot(df[,5:10], group = df$group)
