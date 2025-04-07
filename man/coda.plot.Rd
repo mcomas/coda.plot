@@ -6,7 +6,7 @@
 \alias{coda.plot}
 \title{coda.plot}
 \description{
-Easy to run function to built visualisations by means of ggplot2 objects.
+Easy to run function to built visualisations by means of 'ggplot2' objects.
 }
 \author{
 Marc Comas-Cufí
