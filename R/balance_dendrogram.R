@@ -85,7 +85,7 @@ balance_dendrogram = function(X, B, group = NULL){
       }
     }
     ## l, r, i_bal, x, y
-    h_scaled = x[1] + (x[2] - x[1]) * (h[[i]] - XLIMS[1]) / (XLIMS[2] - XLIMS[1])
+    h_scaled = x[1] + (x[2] - x[1]) * (h[[i_bal]] - XLIMS[1]) / (XLIMS[2] - XLIMS[1])
     nodes[[i]] = list(l = l,
                       r = r,
                       x = x, y = y,
@@ -102,7 +102,7 @@ balance_dendrogram = function(X, B, group = NULL){
 
     if(GROUPED){
       nodes_group[[i]] = lapply(group_labels, function(g){
-        h_scaled = x[1] + (x[2] - x[1]) * (h_group[[g]][[i]] - XLIMS[1]) / (XLIMS[2] - XLIMS[1])
+        h_scaled = x[1] + (x[2] - x[1]) * (h_group[[g]][[i_bal]] - XLIMS[1]) / (XLIMS[2] - XLIMS[1])
         list(l = l,
              r = r,
              x = x, y = y,
