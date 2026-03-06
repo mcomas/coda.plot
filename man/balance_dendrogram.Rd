@@ -12,24 +12,20 @@ Rows are observations and columns are components (must be strictly positive).}
 
 \item{B}{A numeric matrix representing the balance basis (e.g., an isometric log-ratio (ilr) balance matrix).}
 
-\item{group}{Show boxplot by groups}
+\item{group}{Optional. If provided, show grouped box summaries under each node.}
 }
 \value{
-A '\code{ggplot2}' object representing the balance dendrogram.
+A \code{ggplot2} object representing the balance dendrogram.
 }
 \description{
 Plots a balance dendrogram based on a compositional data set and a corresponding balance matrix.
 This visualization helps interpret the structure of balances in compositional data analysis.
 }
-\details{
-The dendrogram shows the hierarchical structure of balances derived from the balance matrix \code{B}.
-Each internal node corresponds to a balance, and the height or color may reflect the variance explained or other statistics.
-}
 \examples{
 # Simulated compositional data and balances
 X = matrix(runif(50, 1, 10), ncol = 5)
 colnames(X) = LETTERS[1:5]
-B = pb_basis(X, method = 'exact')
+B = coda.base::pb_basis(X, method = 'exact')
 balance_dendrogram(X, B)
 
 }

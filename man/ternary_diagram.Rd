@@ -2,7 +2,7 @@
 % Please edit documentation in R/ternary_diagram.R
 \name{ternary_diagram}
 \alias{ternary_diagram}
-\title{Ternary Diagram}
+\title{Ternary diagram for compositional data (D = 3)}
 \usage{
 ternary_diagram(
   X,
@@ -13,26 +13,56 @@ ternary_diagram(
 )
 }
 \arguments{
-\item{X}{A numeric matrix or data frame of compositional data with exactly three columns.}
+\item{X}{A numeric matrix or data frame with exactly three columns (the parts of the composition).
+Values should be positive. Column names (if present) are used as corner labels.}
 
-\item{group}{A factor or character vector indicating groups for color coding (optional).}
+\item{group}{Optional. A factor or character vector of length \code{nrow(X)} used to color points by group.}
 
-\item{center}{Logical. Should the data be centered before plotting? Default is FALSE.}
+\item{center}{Logical. If \code{TRUE}, center the log-ratio coordinates before plotting. Default is \code{FALSE}.}
 
-\item{scale}{Logical. Should the data be scaled to unit variance? Default is FALSE.}
+\item{scale}{Logical. If \code{TRUE}, scale log-ratio coordinates to unit variance before plotting. Default is \code{FALSE}.}
 
-\item{show_pc}{Logical. If TRUE, principal components are overlaid. Default is FALSE.}
+\item{show_pc}{Logical. If \code{TRUE}, overlay the first two principal component directions computed on
+log-ratio coordinates (recommended: \emph{ilr}). Default is \code{FALSE}.}
 }
 \value{
-A \code{ggtern} plot object (inherits from \code{ggplot}).
+A \code{ggplot2} object.
 }
 \description{
-Generates a ternary diagram from compositional data, with options to center, scale,
-and color the points by group. Optionally overlays principal components.
+Create a ternary diagram from compositional data with exactly three parts.
+Optionally center and/or scale the data in log-ratio coordinates, color points by
+group, and overlay the first two principal component directions computed in
+\emph{ilr} coordinates.
+}
+\details{
+\strong{Input requirements.} \code{X} must have exactly three columns. For log-ratio methods,
+parts should be strictly positive. If \code{X} contains zeros or non-positive values, log-ratio
+transforms may fail; consider applying a zero-replacement strategy before calling this function.
+
+\strong{Centering/scaling.} When \code{center} and/or \code{scale} are enabled, the function
+transforms \code{X} to log-ratio coordinates (via \code{coda.base::coordinates()}), applies
+centering/scaling in Euclidean space, and maps back to the simplex using
+\code{coda.base::composition()}.
+
+\strong{Principal components.} If \code{show_pc = TRUE}, the function computes principal components
+in log-ratio space (recommended: \emph{ilr} basis for \eqn{D = 3}) and draws the first two PC
+directions back in the simplex as curves on the ternary diagram. When \code{group} is provided,
+PCs are computed and drawn separately for each group.
 }
 \examples{
-X = milk_cows[,5:7]
-group = milk_cows$group
+# Example with grouping
+X <- milk_cows[, 5:7]
+group <- milk_cows$group
 ternary_diagram(X, group = group)
 
+# With centering/scaling and principal components
+ternary_diagram(X, group = group, center = TRUE, scale = TRUE, show_pc = TRUE)
+
+# Without grouping
+ternary_diagram(X, show_pc = TRUE)
+
+}
+\seealso{
+\code{\link[coda.base]{composition}}, \code{\link[coda.base]{coordinates}},
+  \code{\link[coda.base]{ilr_basis}}
 }

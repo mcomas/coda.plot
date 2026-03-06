@@ -16,31 +16,34 @@ geometric_mean_barplot(
 \item{X}{A numeric matrix or data frame representing compositional data.
 Each row is an observation and each column is a part (must be strictly positive).}
 
-\item{group}{An optional factor or character vector indicating group membership for each observation.}
+\item{group}{A factor or character vector indicating group membership for each observation.
+Must have length \code{nrow(X)}.}
 
 \item{x_show_parts}{Logical. If \code{TRUE}, the x-axis displays parts instead of group labels. Default is \code{TRUE}.}
 
 \item{include_boxplot}{Logical. If \code{TRUE}, a boxplot is overlaid on top of the barplot. Default is \code{FALSE}.}
 
-\item{clr_scale}{Logical. If \code{TRUE}, the data are transformed to clr coordinates before computing geometric means. Default is \code{FALSE}.}
+\item{clr_scale}{Logical. If \code{TRUE}, the data are transformed to clr coordinates before computing means. Default is \code{FALSE}.}
 }
 \value{
-A '\code{ggplot2}' object representing the geometric mean barplot.
+A \code{ggplot2} object representing the geometric mean barplot.
 }
 \description{
 Generates a barplot based on the geometric mean of compositional parts. Optionally,
 it can compare groups, display the parts on the x-axis, overlay boxplots, or use centered log-ratio (clr) transformation.
 }
 \details{
-The function computes geometric means for each compositional part, optionally stratified by groups.
-If \code{clr_scale = TRUE}, the data are transformed using the centered log-ratio transformation before computing means.
+For each part, the function computes (within each group) the mean of either \code{log(X)} (default)
+or \code{clr(X)} (\code{clr_scale = TRUE}), and subtracts the overall mean across all observations.
+Therefore, bars represent deviations from the overall (global) mean on the chosen scale.
 Overlaying a boxplot can help visualize within-group variability.
 }
 \examples{
-# Example with simulated compositional data
-X = matrix(runif(30, 1, 10), ncol = 3)
-colnames(X) = c("A", "B", "C")
-group = rep(c("G1", "G2"), each = 5)
+set.seed(1)
+X <- matrix(runif(30, 1, 10), ncol = 3)
+colnames(X) <- c("A", "B", "C")
+group <- rep(c("G1", "G2"), each = 5)
 geometric_mean_barplot(X, group, include_boxplot = TRUE)
+geometric_mean_barplot(X, group, clr_scale = TRUE)
 
 }
