@@ -3,7 +3,7 @@ utils::globalVariables(c(
   "c1", "c2", "c3", ".A", ".B", ".C", "group", "lx.diff", "part", "shape", "lab",
   "x", ".x", "xend", ".xend", "xlower", "xlower5", "xmiddle", "xupper", "xupper5",
   "y", ".y", "yend", ".yend", "text", "nudge_x", "label", "ymin_minor", "ymin_major",
-  "ymax_minor", "ymax_major", "gid"
+  "ymax_minor", "ymax_major", "gid", "pc"
 ))
 # internal helper in R/utils-optional.R
 .require_suggested <- function(pkg, min_version = NULL, reason = NULL, ask_install = TRUE) {

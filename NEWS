@@ -1,3 +1,21 @@
+coda.plot 0.2.2
+===============
+New features
+  * Added a modular API for ternary diagrams based on ternary_frame(),
+    ternary_plot(), ternary_coords(), add_ternary_grid(),
+    add_ternary_points(), add_ternary_path(), and add_ternary_pc().
+
+Improvements
+  * Improved ternary plotting so that corner labels are inferred from
+    colnames(X) when available, and refreshed automatically when the
+    initial frame used default labels.
+  * Added optional centering and scaling in log-ratio coordinates to
+    ternary_frame() and ternary_diagram().
+  * Added support for plotting principal component directions in ternary
+    diagrams through add_ternary_pc() and the show_pc argument of
+    ternary_diagram().
+
+
 coda.plot 0.1.9
 ===============
 * balance_dendrogram() indexing corrected.

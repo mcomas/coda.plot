@@ -1,8 +1,8 @@
 Package: coda.plot
 Type: Package
 Title: Plots for Compositional Data
-Version: 0.2.1
-Date: 2026-03-06
+Version: 0.2.2
+Date: 2026-04-12
 Authors@R: c(person("Marc", "Comas-Cufí", role = c("aut", "cre"), 
                     email = "mcomas@imae.udg.edu", comment = c(ORCID = "0000-0001-9759-0622")))
 Description: Provides a collection of easy-to-use functions for creating 

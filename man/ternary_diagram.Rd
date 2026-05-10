@@ -20,7 +20,10 @@ Values should be positive. Column names (if present) are used as corner labels.}
 
 \item{center}{Logical. If \code{TRUE}, center the log-ratio coordinates before plotting. Default is \code{FALSE}.}
 
-\item{scale}{Logical. If \code{TRUE}, scale log-ratio coordinates to unit variance before plotting. Default is \code{FALSE}.}
+\item{scale}{Logical or numeric. If \code{FALSE}, no scaling is applied. If \code{TRUE},
+log-ratio coordinates are scaled by their empirical standard deviations. If a single
+positive numeric value is supplied, centered log-ratio coordinates are multiplied
+by that value, so values larger than 1 increase visual spread and values between 0 and 1 shrink it.}
 
 \item{show_pc}{Logical. If \code{TRUE}, overlay the first two principal component directions computed on
 log-ratio coordinates (recommended: \emph{ilr}). Default is \code{FALSE}.}
@@ -35,34 +38,21 @@ group, and overlay the first two principal component directions computed in
 \emph{ilr} coordinates.
 }
 \details{
-\strong{Input requirements.} \code{X} must have exactly three columns. For log-ratio methods,
-parts should be strictly positive. If \code{X} contains zeros or non-positive values, log-ratio
-transforms may fail; consider applying a zero-replacement strategy before calling this function.
-
-\strong{Centering/scaling.} When \code{center} and/or \code{scale} are enabled, the function
-transforms \code{X} to log-ratio coordinates (via \code{coda.base::coordinates()}), applies
-centering/scaling in Euclidean space, and maps back to the simplex using
-\code{coda.base::composition()}.
-
-\strong{Principal components.} If \code{show_pc = TRUE}, the function computes principal components
-in log-ratio space (recommended: \emph{ilr} basis for \eqn{D = 3}) and draws the first two PC
-directions back in the simplex as curves on the ternary diagram. When \code{group} is provided,
-PCs are computed and drawn separately for each group.
+This function is kept as a convenient wrapper around the modular ternary API:
+\code{ternary_frame()}, \code{ternary_plot()}, \code{add_ternary_points()}, and
+\code{add_ternary_pc()}.
 }
 \examples{
-# Example with grouping
 X <- milk_cows[, 5:7]
 group <- milk_cows$group
+
 ternary_diagram(X, group = group)
-
-# With centering/scaling and principal components
-ternary_diagram(X, group = group, center = TRUE, scale = TRUE, show_pc = TRUE)
-
-# Without grouping
+ternary_diagram(X, group = group, center = TRUE, scale = TRUE)
+ternary_diagram(X, group = group, center = TRUE, scale = 1.5)
 ternary_diagram(X, show_pc = TRUE)
 
 }
 \seealso{
-\code{\link[coda.base]{composition}}, \code{\link[coda.base]{coordinates}},
-  \code{\link[coda.base]{ilr_basis}}
+\code{\link{ternary_frame}}, \code{\link{ternary_plot}},
+  \code{\link{add_ternary_points}}, \code{\link{add_ternary_pc}}
 }

@@ -41,8 +41,8 @@ balance_dendrogram <- function(X, B, group = NULL){
   }
 
   # ilr coordinates for each balance column
-  H <- coda.base::coordinates(X, B)               # n x (D-1)
-  h <- lapply(seq_len(ncol(H)), function(j) H[,j])# list of numeric vectors
+  H <- coda.base::coordinates(X, B)
+  h <- lapply(seq_len(ncol(H)), function(j) H[,j])
 
   BAL_LABELS <- paste0("bal", 1:ncol(B))
   if(!is.null(colnames(B))) BAL_LABELS <- colnames(B)
@@ -176,49 +176,59 @@ balance_dendrogram <- function(X, B, group = NULL){
   if(!is.finite(TOTAL_VAR) || TOTAL_VAR <= 0) TOTAL_VAR <- 1
   add_height(iroot, TOTAL_VAR)
 
+  LAB_DX <- 0.15
+  LAB_DY <- 0.025 * TOTAL_VAR
+
   # segments: horizontal
   dhoriz <- do.call(rbind, lapply(nodes, function(nod){
-    data.frame(x=nod$x[1], xend=nod$x[2], y=nod$y[1], yend=nod$y[1])
+    data.frame(x = nod$x[1], xend = nod$x[2], y = nod$y[1], yend = nod$y[1])
   }))
-  VMIN <- min(dhoriz$y) - 0.025*TOTAL_VAR
+  VMIN <- min(dhoriz$y) - 0.025 * TOTAL_VAR
 
   # segments: vertical
   dvert <- do.call(rbind, lapply(nodes, function(nod){
-    data.frame(x=nod$x_mean, xend=nod$x_mean, y=nod$y[1], yend=nod$y[2])
+    data.frame(x = nod$x_mean, xend = nod$x_mean, y = nod$y[1], yend = nod$y[2])
   }))
 
   # labels at node
   dlabel <- do.call(rbind, lapply(nodes, function(nod){
-    data.frame(x=nod$x_mean, y=nod$y[1],
-               label = BAL_LABELS[nod$i_bal],
-               nudge_x = nod$lab_pos)
+    data.frame(
+      x = nod$x_mean,
+      y = nod$y[1],
+      label = BAL_LABELS[nod$i_bal],
+      nudge_x = nod$lab_pos
+    )
   }))
 
   # ticks under each node (guard against empty tick ranges)
   dticks <- do.call(rbind, lapply(nodes, function(nod){
     i_from <- ceiling(XLIMS[1]) + 1
     i_to   <- floor(XLIMS[2]) - 1
-    if(i_from > i_to) return(data.frame(x=numeric(0), y=numeric(0), yend=numeric(0)))
+    if(i_from > i_to) return(data.frame(x = numeric(0), y = numeric(0), yend = numeric(0)))
 
     i_ticks <- i_from:i_to
     w_ticks <- 0.008
     data.frame(
-      x = nod$x[1] + (nod$x[2] - nod$x[1]) * (i_ticks - XLIMS[1])/(XLIMS[2] - XLIMS[1]),
-      y = rep(nod$y[1] - w_ticks*TOTAL_VAR, length(i_ticks)),
-      yend = nod$y[1] + (i_ticks == 0) * rep(w_ticks*TOTAL_VAR, length(i_ticks))
+      x = nod$x[1] + (nod$x[2] - nod$x[1]) * (i_ticks - XLIMS[1]) / (XLIMS[2] - XLIMS[1]),
+      y = rep(nod$y[1] - w_ticks * TOTAL_VAR, length(i_ticks)),
+      yend = nod$y[1] + (i_ticks == 0) * rep(w_ticks * TOTAL_VAR, length(i_ticks))
     )
   }))
 
   # dotted base down to VMIN for leaves
   dbase <- do.call(rbind, lapply(seq_along(nodes), function(inode){
-    d <- data.frame(x=numeric(0), xend=numeric(0), y=numeric(0), yend=numeric(0))
+    d <- data.frame(x = numeric(0), xend = numeric(0), y = numeric(0), yend = numeric(0))
     if(hc$merge[inode,1] < 0){
-      d <- rbind(d, data.frame(x=nodes[[inode]]$x[1], xend=nodes[[inode]]$x[1],
-                               y=nodes[[inode]]$y[1], yend=VMIN))
+      d <- rbind(d, data.frame(
+        x = nodes[[inode]]$x[1], xend = nodes[[inode]]$x[1],
+        y = nodes[[inode]]$y[1], yend = VMIN
+      ))
     }
     if(hc$merge[inode,2] < 0){
-      d <- rbind(d, data.frame(x=nodes[[inode]]$x[2], xend=nodes[[inode]]$x[2],
-                               y=nodes[[inode]]$y[1], yend=VMIN))
+      d <- rbind(d, data.frame(
+        x = nodes[[inode]]$x[2], xend = nodes[[inode]]$x[2],
+        y = nodes[[inode]]$y[1], yend = VMIN
+      ))
     }
     d
   }))
@@ -227,16 +237,22 @@ balance_dendrogram <- function(X, B, group = NULL){
     ggplot2::geom_segment(data = dhoriz, ggplot2::aes(x = x, xend = xend, y = y, yend = yend)) +
     ggplot2::geom_segment(data = dticks, ggplot2::aes(x = x, xend = x, y = y, yend = yend)) +
     ggplot2::geom_segment(data = dvert,  ggplot2::aes(x = x, xend = xend, y = y, yend = yend)) +
-    ggplot2::geom_segment(data = dbase,  ggplot2::aes(x = x, xend = xend, y = y, yend = yend),
-                          linetype = "dotted", colour = "grey") +
-    ggplot2::geom_text(data = dlabel,
-                       ggplot2::aes(x = x + 0.15 * nudge_x, y = y, label = label),
-                       nudge_y = 0.025 * TOTAL_VAR, colour = "blue")
+    ggplot2::geom_segment(
+      data = dbase,
+      ggplot2::aes(x = x, xend = xend, y = y, yend = yend),
+      linetype = "dotted", colour = "grey"
+    ) +
+    ggplot2::geom_text(
+      data = dlabel,
+      ggplot2::aes(x = x + LAB_DX * nudge_x, y = y, label = label),
+      nudge_y = LAB_DY,
+      colour = "blue"
+    )
 
   # “Box-like” summaries under each node
   W <- 0.008
-  DOWN <- 2.5*W*TOTAL_VAR
-  PROP_BOX <- 2/3
+  DOWN <- 2.5 * W * TOTAL_VAR
+  PROP_BOX <- 2 / 3
 
   if(GROUPED){
     dbox <- do.call(rbind, lapply(nodes_group, function(nod_grouped){
@@ -247,33 +263,37 @@ balance_dendrogram <- function(X, B, group = NULL){
           xmin = nod$x[1], xlower = nod$x_q1, xlower5 = nod$x_05,
           xmiddle = nod$x_median, xupper = nod$x_q3, xmax = nod$x[2],
           xupper5 = nod$x_95,
-          y = nod$y[1] - ii*DOWN,
-          ymax_major = nod$y[1] - ii*DOWN + W*TOTAL_VAR,
-          ymin_major = nod$y[1] - ii*DOWN - W*TOTAL_VAR,
-          ymax_minor = nod$y[1] - ii*DOWN + PROP_BOX*W*TOTAL_VAR,
-          ymin_minor = nod$y[1] - ii*DOWN - PROP_BOX*W*TOTAL_VAR,
+          y = nod$y[1] - ii * DOWN,
+          ymax_major = nod$y[1] - ii * DOWN + W * TOTAL_VAR,
+          ymin_major = nod$y[1] - ii * DOWN - W * TOTAL_VAR,
+          ymax_minor = nod$y[1] - ii * DOWN + PROP_BOX * W * TOTAL_VAR,
+          ymin_minor = nod$y[1] - ii * DOWN - PROP_BOX * W * TOTAL_VAR,
           group = g
         )
       }))
     }))
 
     p <- p +
-      ggplot2::geom_rect(data=dbox, ggplot2::aes(xmin = xlower5, xmax = xmiddle,
-                                                 ymin = ymin_minor, ymax = ymax_minor,
-                                                 fill = group),
-                         colour = "black", alpha = 0.45) +
-      ggplot2::geom_rect(data=dbox, ggplot2::aes(xmin = xmiddle, xmax = xupper5,
-                                                 ymin = ymin_minor, ymax = ymax_minor,
-                                                 fill = group),
-                         colour = "black", alpha = 0.45) +
-      ggplot2::geom_rect(data=dbox, ggplot2::aes(xmin = xlower, xmax = xmiddle,
-                                                 ymin = ymin_major, ymax = ymax_major,
-                                                 fill = group),
-                         colour = "black") +
-      ggplot2::geom_rect(data=dbox, ggplot2::aes(xmin = xmiddle, xmax = xupper,
-                                                 ymin = ymin_major, ymax = ymax_major,
-                                                 fill = group),
-                         colour = "black")
+      ggplot2::geom_rect(
+        data = dbox,
+        ggplot2::aes(xmin = xlower5, xmax = xmiddle, ymin = ymin_minor, ymax = ymax_minor, fill = group),
+        colour = "black", alpha = 0.45
+      ) +
+      ggplot2::geom_rect(
+        data = dbox,
+        ggplot2::aes(xmin = xmiddle, xmax = xupper5, ymin = ymin_minor, ymax = ymax_minor, fill = group),
+        colour = "black", alpha = 0.45
+      ) +
+      ggplot2::geom_rect(
+        data = dbox,
+        ggplot2::aes(xmin = xlower, xmax = xmiddle, ymin = ymin_major, ymax = ymax_major, fill = group),
+        colour = "black"
+      ) +
+      ggplot2::geom_rect(
+        data = dbox,
+        ggplot2::aes(xmin = xmiddle, xmax = xupper, ymin = ymin_major, ymax = ymax_major, fill = group),
+        colour = "black"
+      )
 
   } else {
     dbox <- do.call(rbind, lapply(nodes, function(nod){
@@ -282,41 +302,60 @@ balance_dendrogram <- function(X, B, group = NULL){
         xmiddle = nod$x_median, xupper = nod$x_q3, xmax = nod$x[2],
         xupper5 = nod$x_95,
         y = nod$y[1] - DOWN,
-        ymax_major = nod$y[1] - DOWN + W*TOTAL_VAR,
-        ymin_major = nod$y[1] - DOWN - W*TOTAL_VAR,
-        ymax_minor = nod$y[1] - DOWN + PROP_BOX*W*TOTAL_VAR,
-        ymin_minor = nod$y[1] - DOWN - PROP_BOX*W*TOTAL_VAR
+        ymax_major = nod$y[1] - DOWN + W * TOTAL_VAR,
+        ymin_major = nod$y[1] - DOWN - W * TOTAL_VAR,
+        ymax_minor = nod$y[1] - DOWN + PROP_BOX * W * TOTAL_VAR,
+        ymin_minor = nod$y[1] - DOWN - PROP_BOX * W * TOTAL_VAR
       )
     }))
 
     p <- p +
-      ggplot2::geom_rect(data=dbox, ggplot2::aes(xmin = xlower5, xmax = xmiddle,
-                                                 ymin = ymin_minor, ymax = ymax_minor),
-                         colour = "black", fill = "grey80") +
-      ggplot2::geom_rect(data=dbox, ggplot2::aes(xmin = xmiddle, xmax = xupper5,
-                                                 ymin = ymin_minor, ymax = ymax_minor),
-                         colour = "black", fill = "grey80") +
-      ggplot2::geom_rect(data=dbox, ggplot2::aes(xmin = xlower, xmax = xmiddle,
-                                                 ymin = ymin_major, ymax = ymax_major),
-                         colour = "black", fill = "grey70") +
-      ggplot2::geom_rect(data=dbox, ggplot2::aes(xmin = xmiddle, xmax = xupper,
-                                                 ymin = ymin_major, ymax = ymax_major),
-                         colour = "black", fill = "grey70")
+      ggplot2::geom_rect(
+        data = dbox,
+        ggplot2::aes(xmin = xlower5, xmax = xmiddle, ymin = ymin_minor, ymax = ymax_minor),
+        colour = "black", fill = "grey80"
+      ) +
+      ggplot2::geom_rect(
+        data = dbox,
+        ggplot2::aes(xmin = xmiddle, xmax = xupper5, ymin = ymin_minor, ymax = ymax_minor),
+        colour = "black", fill = "grey80"
+      ) +
+      ggplot2::geom_rect(
+        data = dbox,
+        ggplot2::aes(xmin = xlower, xmax = xmiddle, ymin = ymin_major, ymax = ymax_major),
+        colour = "black", fill = "grey70"
+      ) +
+      ggplot2::geom_rect(
+        data = dbox,
+        ggplot2::aes(xmin = xmiddle, xmax = xupper, ymin = ymin_major, ymax = ymax_major),
+        colour = "black", fill = "grey70"
+      )
   }
 
+  y_top <- TOTAL_VAR + LAB_DY + 0.02 * TOTAL_VAR
+  y_bottom <- min(c(VMIN, dbox$ymin_major), na.rm = TRUE) - 0.02 * TOTAL_VAR
+
   p_dendrogram <- p +
-    ggplot2::scale_x_continuous(breaks = 1:ncol(X), labels = hc$labels[hc$order]) +
+    ggplot2::scale_x_continuous(
+      breaks = 1:ncol(X),
+      labels = hc$labels[hc$order]
+    ) +
     ggplot2::scale_y_continuous(
-      limits = c(NA, TOTAL_VAR),
-      breaks = seq(0,1,0.1) * TOTAL_VAR,
-      minor_breaks = seq(0,1,0.05) * TOTAL_VAR,
-      labels = sprintf("%d%%", seq(0,100,10))
+      breaks = seq(0, 1, 0.1) * TOTAL_VAR,
+      minor_breaks = seq(0, 1, 0.05) * TOTAL_VAR,
+      labels = sprintf("%d%%", seq(0, 100, 10))
+    ) +
+    ggplot2::coord_cartesian(
+      xlim = c(1 - LAB_DX - 0.1, ncol(X) + LAB_DX + 0.1),
+      ylim = c(y_bottom, y_top),
+      clip = "off"
     ) +
     ggplot2::theme_minimal() +
     ggplot2::theme(
       panel.grid.minor.x = ggplot2::element_blank(),
       panel.grid.major.x = ggplot2::element_blank(),
-      axis.text.x = ggplot2::element_text()
+      axis.text.x = ggplot2::element_text(),
+      plot.margin = ggplot2::margin(10, 20, 10, 20)
     ) +
     ggplot2::labs(x = NULL, y = "Variance explained (%)", fill = "")
 
@@ -352,24 +391,17 @@ hclust_dendrogram <- function(B){
     }
   }
 
-  left <- function(pair){
-    B_ <- sign(B)[pair, , drop=FALSE]
-    good_cols <- apply(B_, 2, function(x) all(x != 0))
-    if(!any(good_cols)) return(1)
-    which.min(rowSums(B_[, good_cols, drop=FALSE] != 0))
+  # ordre correcte de fulles, obtingut recursivament a partir de MERGE
+  get_order <- function(node){
+    pair <- MERGE[node, ]
+
+    left <- if(pair[1] < 0) -pair[1] else get_order(pair[1])
+    right <- if(pair[2] < 0) -pair[2] else get_order(pair[2])
+
+    c(left, right)
   }
 
-  ORDER <- 1:nrow(B)
-  for(i in 1:nrow(B)){
-    if(i != nrow(B)){
-      for(j in (i+1):nrow(B)){
-        x <- c(ORDER[i], ORDER[j])
-        ileft_ <- left(x)
-        ORDER[i] <- x[ileft_]
-        ORDER[j] <- x[3-ileft_]
-      }
-    }
-  }
+  ORDER <- get_order(nrow(MERGE))
 
   HEIGHT <- rep(0, ncol(B))
   for(i in 1:nrow(MERGE)){
