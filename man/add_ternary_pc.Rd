@@ -16,7 +16,7 @@ add_ternary_pc(
 )
 }
 \arguments{
-\item{p}{A \code{ggplot2} object created by \code{ternary_plot()}.}
+\item{p}{A \code{ggplot2} object created by \code{ternary_base()}.}
 
 \item{X}{A numeric matrix or data frame with exactly three columns.}
 

@@ -2,31 +2,51 @@
 % Please edit documentation in R/ternary_diagram.R
 \name{ternary_plot}
 \alias{ternary_plot}
-\title{Create a base ternary plot}
+\title{Ternary plot for compositional data (D = 3)}
 \usage{
-ternary_plot(
-  frame = NULL,
-  show_grid = TRUE,
-  show_outline = TRUE,
-  show_labels = TRUE,
-  grid_ticks = seq(0.1, 0.9, 0.1)
-)
+ternary_plot(X, group = NULL, center = FALSE, scale = FALSE, show_pc = FALSE)
 }
 \arguments{
-\item{frame}{Optional \code{ternary_frame} object. If \code{NULL}, a default
-ternary frame is created with no centering and no scaling.}
+\item{X}{A numeric matrix or data frame with exactly three columns (the parts of the composition).
+Values should be positive. Column names (if present) are used as corner labels.}
 
-\item{show_grid}{Logical. If \code{TRUE}, draw the ternary grid.}
+\item{group}{Optional. A factor or character vector of length \code{nrow(X)} used to color points by group.}
 
-\item{show_outline}{Logical. If \code{TRUE}, draw the ternary triangle outline.}
+\item{center}{Logical. If \code{TRUE}, center the log-ratio coordinates before plotting. Default is \code{FALSE}.}
 
-\item{show_labels}{Logical. If \code{TRUE}, draw corner labels.}
+\item{scale}{Logical or numeric. If \code{FALSE}, no scaling is applied. If \code{TRUE},
+log-ratio coordinates are scaled by their empirical standard deviations. If a single
+positive numeric value is supplied, centered log-ratio coordinates are multiplied
+by that value, so values larger than 1 increase visual spread and values between 0 and 1 shrink it.}
 
-\item{grid_ticks}{Numeric vector of grid levels.}
+\item{show_pc}{Logical. If \code{TRUE}, overlay the first two principal component directions computed on
+log-ratio coordinates (recommended: \emph{ilr}). Default is \code{FALSE}.}
 }
 \value{
-A \code{ggplot2} object with the \code{ternary_frame} attached as attribute.
+A \code{ggplot2} object.
 }
 \description{
-Create the base ggplot object associated with a \code{ternary_frame}.
+Create a ternary plot from compositional data with exactly three parts.
+Optionally center and/or scale the data in log-ratio coordinates, color points by
+group, and overlay the first two principal component directions computed in
+\emph{ilr} coordinates.
+}
+\details{
+This function is the convenient wrapper around the modular ternary API:
+\code{ternary_frame()}, \code{ternary_base()}, \code{add_ternary_points()}, and
+\code{add_ternary_pc()}.
+}
+\examples{
+X <- milk_cows[, 5:7]
+group <- milk_cows$group
+
+ternary_plot(X, group = group)
+ternary_plot(X, group = group, center = TRUE, scale = TRUE)
+ternary_plot(X, group = group, center = TRUE, scale = 1.5)
+ternary_plot(X, show_pc = TRUE)
+
+}
+\seealso{
+\code{\link{ternary_frame}}, \code{\link{ternary_base}},
+  \code{\link{add_ternary_points}}, \code{\link{add_ternary_pc}}
 }

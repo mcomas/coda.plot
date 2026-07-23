@@ -2,13 +2,13 @@ library(coda.plot)
 X = milk_cows[,5:10]
 group = milk_cows$group
 
-ternary_diagram(X[,1:3])
-ternary_diagram(X[,1:3], group = group)
-ternary_diagram(X[,1:3], show_pc = TRUE)
-ternary_diagram(X[,1:3], group = group, show_pc = TRUE)
-ternary_diagram(X[,1:3], group = group, center = TRUE, show_pc = TRUE)
-ternary_diagram(X[,1:3], group = group, center = TRUE, scale = TRUE, show_pc = TRUE)
-ternary_diagram(X[,1:3], group = group, scale = TRUE, show_pc = TRUE)
+ternary_plot(X[,1:3])
+ternary_plot(X[,1:3], group = group)
+ternary_plot(X[,1:3], show_pc = TRUE)
+ternary_plot(X[,1:3], group = group, show_pc = TRUE)
+ternary_plot(X[,1:3], group = group, center = TRUE, show_pc = TRUE)
+ternary_plot(X[,1:3], group = group, center = TRUE, scale = TRUE, show_pc = TRUE)
+ternary_plot(X[,1:3], group = group, scale = TRUE, show_pc = TRUE)
 
 
 geometric_mean_barplot(X, group = group)
@@ -35,7 +35,7 @@ apply(coordinates(X), 2, var)
 
 X = alimentation[,1:3]
 group = alimentation$NorthMed
-ternary_diagram(X, group)
+ternary_plot(X, group)
 geometric_mean_barplot(X, group)
 geometric_mean_barplot(X, group, x_show_parts = F)
 

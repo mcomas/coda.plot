@@ -1,8 +1,11 @@
 coda.plot 0.2.2
 ===============
 New features
+  * Added logcontrast_biplot() for plotting compositional observations in
+    coordinates defined by two user-supplied log-contrasts, with part rays
+    shown as projected unit directions.
   * Added a modular API for ternary diagrams based on ternary_frame(),
-    ternary_plot(), ternary_coords(), add_ternary_grid(),
+    ternary_base(), ternary_plot(), ternary_coords(), add_ternary_grid(),
     add_ternary_points(), add_ternary_path(), and add_ternary_pc().
 
 Improvements
@@ -10,10 +13,10 @@ Improvements
     colnames(X) when available, and refreshed automatically when the
     initial frame used default labels.
   * Added optional centering and scaling in log-ratio coordinates to
-    ternary_frame() and ternary_diagram().
+    ternary_frame() and ternary_plot().
   * Added support for plotting principal component directions in ternary
     diagrams through add_ternary_pc() and the show_pc argument of
-    ternary_diagram().
+    ternary_plot().
 
 
 coda.plot 0.1.9

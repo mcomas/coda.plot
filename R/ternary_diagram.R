@@ -376,11 +376,11 @@ ternary_grid_data <- function(frame, ticks = seq(0.1, 0.9, 0.1), n = 300, eps = 
 #' @return A \code{ggplot2} object with the \code{ternary_frame} attached as attribute.
 #'
 #' @export
-ternary_plot <- function(frame = NULL,
+ternary_base <- function(frame = NULL,
                          show_grid = TRUE,
                          show_outline = TRUE,
                          show_labels = TRUE,
-                         grid_ticks = seq(0.1, 0.9, 0.1)) {
+                         grid_ticks = ppoints(9, 0)) {
   if (is.null(frame)) {
     frame <- new_default_ternary_frame()
   }
@@ -417,7 +417,7 @@ ternary_plot <- function(frame = NULL,
 
 #' Add a ternary grid layer
 #'
-#' @param p A \code{ggplot2} object created by \code{ternary_plot()}.
+#' @param p A \code{ggplot2} object created by \code{ternary_base()}.
 #' @param ticks Numeric vector of grid levels.
 #' @param n Number of sampled points per grid line.
 #' @param eps Small positive offset used before log-ratio transformation.
@@ -470,7 +470,7 @@ add_ternary_grid <- function(p, ticks = seq(0.1, 0.9, 0.1), n = 300, eps = 1e-6,
 
 #' Add compositional points to a ternary plot
 #'
-#' @param p A \code{ggplot2} object created by \code{ternary_plot()}.
+#' @param p A \code{ggplot2} object created by \code{ternary_base()}.
 #' @param X A numeric matrix or data frame with exactly three columns.
 #' @param group Optional grouping variable of length \code{nrow(X)}.
 #' @param transform Logical. If \code{TRUE}, apply the frame transformation.
@@ -507,7 +507,7 @@ add_ternary_points <- function(p, X, group = NULL, transform = TRUE, ...) {
 
 #' Add a compositional path to a ternary plot
 #'
-#' @param p A \code{ggplot2} object created by \code{ternary_plot()}.
+#' @param p A \code{ggplot2} object created by \code{ternary_base()}.
 #' @param X A numeric matrix or data frame with exactly three columns.
 #' @param group Optional grouping variable of length \code{nrow(X)} for multiple paths.
 #' @param transform Logical. If \code{TRUE}, apply the frame transformation.
@@ -544,7 +544,7 @@ add_ternary_path <- function(p, X, group = NULL, transform = TRUE, ...) {
 
 #' Add principal component paths to a ternary plot
 #'
-#' @param p A \code{ggplot2} object created by \code{ternary_plot()}.
+#' @param p A \code{ggplot2} object created by \code{ternary_base()}.
 #' @param X A numeric matrix or data frame with exactly three columns.
 #' @param group Optional grouping variable of length \code{nrow(X)}. If supplied,
 #'   PCs are computed separately by group.
@@ -661,15 +661,15 @@ add_ternary_pc <- function(p, X, group = NULL, pcs = 1:2,
   set_ternary_frame(p, frame)
 }
 
-#' Ternary diagram for compositional data (D = 3)
+#' Ternary plot for compositional data (D = 3)
 #'
-#' Create a ternary diagram from compositional data with exactly three parts.
+#' Create a ternary plot from compositional data with exactly three parts.
 #' Optionally center and/or scale the data in log-ratio coordinates, color points by
 #' group, and overlay the first two principal component directions computed in
 #' \emph{ilr} coordinates.
 #'
-#' This function is kept as a convenient wrapper around the modular ternary API:
-#' \code{ternary_frame()}, \code{ternary_plot()}, \code{add_ternary_points()}, and
+#' This function is the convenient wrapper around the modular ternary API:
+#' \code{ternary_frame()}, \code{ternary_base()}, \code{add_ternary_points()}, and
 #' \code{add_ternary_pc()}.
 #'
 #' @param X A numeric matrix or data frame with exactly three columns (the parts of the composition).
@@ -685,23 +685,23 @@ add_ternary_pc <- function(p, X, group = NULL, pcs = 1:2,
 #'
 #' @return A \code{ggplot2} object.
 #'
-#' @seealso \code{\link{ternary_frame}}, \code{\link{ternary_plot}},
+#' @seealso \code{\link{ternary_frame}}, \code{\link{ternary_base}},
 #'   \code{\link{add_ternary_points}}, \code{\link{add_ternary_pc}}
 #'
 #' @examples
 #' X <- milk_cows[, 5:7]
 #' group <- milk_cows$group
 #'
-#' ternary_diagram(X, group = group)
-#' ternary_diagram(X, group = group, center = TRUE, scale = TRUE)
-#' ternary_diagram(X, group = group, center = TRUE, scale = 1.5)
-#' ternary_diagram(X, show_pc = TRUE)
+#' ternary_plot(X, group = group)
+#' ternary_plot(X, group = group, center = TRUE, scale = TRUE)
+#' ternary_plot(X, group = group, center = TRUE, scale = 1.5)
+#' ternary_plot(X, show_pc = TRUE)
 #'
 #' @export
-ternary_diagram <- function(X, group = NULL,
-                            center = FALSE, scale = FALSE,
-                            show_pc = FALSE) {
-  p <- ternary_plot(
+ternary_plot <- function(X, group = NULL,
+                         center = FALSE, scale = FALSE,
+                         show_pc = FALSE) {
+  p <- ternary_base(
     ternary_frame(X, center = center, scale = scale)
   )
 

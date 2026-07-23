@@ -7,7 +7,7 @@
 add_ternary_grid(p, ticks = seq(0.1, 0.9, 0.1), n = 300, eps = 1e-06, ...)
 }
 \arguments{
-\item{p}{A \code{ggplot2} object created by \code{ternary_plot()}.}
+\item{p}{A \code{ggplot2} object created by \code{ternary_base()}.}
 
 \item{ticks}{Numeric vector of grid levels.}
 
