@@ -14,5 +14,9 @@ URL: https://mcomas.github.io/coda.plot/, https://github.com/mcomas/coda.plot
 BugReports: https://github.com/mcomas/coda.plot/issues
 Encoding: UTF-8
 Imports: ggplot2 (>= 3.5.0), ggrepel
+Suggests:
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
 LazyData: true
 RoxygenNote: 7.3.2

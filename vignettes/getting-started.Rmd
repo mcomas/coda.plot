@@ -1,0 +1,201 @@
+---
+title: "Introducció a coda.plot"
+author: "Marc Comas-Cufí"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introducció a coda.plot}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5
+)
+```
+
+`coda.plot` proporciona gràfics senzills per explorar dades composicionals. En
+aquest tipus de dades, cada fila descriu com es reparteix un total entre diverses
+parts. Per exemple, una barreja pot estar formada per proteïna, greix i
+carbohidrats.
+
+La idea més important és que totes les parts han de ser **estrictament
+positives**. No cal que les files sumin 1 o 100: les funcions treballen amb les
+proporcions relatives.
+
+```{r data}
+library(coda.plot)
+
+set.seed(2026)
+X <- matrix(rexp(90, rate = 1), ncol = 3)
+colnames(X) <- c("Proteina", "Greix", "Carbohidrats")
+grup <- factor(rep(c("Control", "Tractament"), each = 15))
+
+head(X)
+```
+
+## Diagrama ternari ràpid
+
+Quan hi ha exactament tres parts, `ternary_plot()` és la manera més directa de
+representar-les. Cada punt correspon a una fila de `X`, i la proximitat a un
+vèrtex indica un pes relatiu més gran de la part que hi apareix escrita.
+
+```{r ternary-plot}
+ternary_plot(X, group = grup)
+```
+
+Amb `center = TRUE` el gràfic se centra en la composició mitjana. `scale = TRUE`
+estandarditza la variabilitat, i `show_pc = TRUE` afegeix les dues direccions
+principals de variació.
+
+```{r ternary-transformed}
+ternary_plot(X, group = grup, center = TRUE, scale = TRUE, show_pc = TRUE)
+```
+
+## Construir un diagrama ternari per capes
+
+La interfície modular és útil quan volem controlar cada element del gràfic.
+Primer, `ternary_frame()` defineix la transformació i les etiquetes. Després,
+`ternary_base()` crea el triangle, i les funcions `add_ternary_*()` hi afegeixen
+capes.
+
+```{r ternary-layers}
+marc <- ternary_frame(X, labels = c("P", "G", "C"))
+
+p <- ternary_base(marc, show_grid = FALSE)
+p <- add_ternary_grid(p, ticks = c(0.25, 0.50, 0.75), colour = "grey80")
+p <- add_ternary_points(p, X, group = grup, size = 2)
+p
+```
+
+`add_ternary_path()` uneix composicions ordenades. En aquest exemple, el camí
+mostra una transició gradual des d'una composició rica en proteïna fins a una
+composició rica en carbohidrats.
+
+```{r ternary-path}
+cami <- rbind(
+  c(8, 1, 1),
+  c(6, 2, 2),
+  c(4, 3, 3),
+  c(2, 3, 5),
+  c(1, 2, 7)
+)
+
+p <- ternary_base(ternary_frame(cami, labels = colnames(X)))
+p <- add_ternary_path(p, cami, colour = "#0072B2", linewidth = 1)
+add_ternary_points(p, cami, colour = "#0072B2", size = 2)
+```
+
+`add_ternary_pc()` permet afegir les direccions principals manualment. És
+l'equivalent modular de `show_pc = TRUE`.
+
+```{r ternary-pc}
+p <- ternary_base(ternary_frame(X, center = TRUE))
+p <- add_ternary_points(p, X, group = grup)
+add_ternary_pc(p, X, colour = "black", linewidth = 0.7)
+```
+
+Finalment, `ternary_coords()` retorna les coordenades que s'utilitzen per
+dibuixar. És útil per preparar anotacions o capes personalitzades amb `ggplot2`.
+
+```{r ternary-coords}
+coords <- ternary_coords(marc, X, group = grup)
+head(coords)
+```
+
+## Comparar grups amb mitjanes geomètriques
+
+`geometric_mean_barplot()` compara les parts entre grups. Les barres representen
+desviacions respecte de la mitjana global; `include_boxplot = TRUE` també mostra
+la variabilitat de les observacions.
+
+```{r geometric-means}
+geometric_mean_barplot(X, grup, include_boxplot = TRUE)
+```
+
+Amb `clr_scale = TRUE`, el càlcul es fa en coordenades clr, adequades per
+interpretar diferències relatives entre parts.
+
+```{r geometric-means-clr}
+geometric_mean_barplot(X, grup, clr_scale = TRUE)
+```
+
+## Biplot clr
+
+Per a composicions amb tres parts o més, `clr_biplot()` resumeix les observacions
+i les parts en dues dimensions. Punts propers representen observacions semblants;
+les direccions de les etiquetes indiquen quines parts expliquen la variació.
+
+```{r biplot-data}
+X6 <- matrix(rexp(180), ncol = 6)
+colnames(X6) <- paste0("Part_", 1:6)
+```
+
+```{r clr-biplot}
+clr_biplot(X6, group = grup)
+```
+
+El tipus `"covariance"` posa l'èmfasi en les observacions, mentre que `"form"`
+facilita la lectura de les relacions entre parts.
+
+```{r clr-form}
+clr_biplot(X6, group = grup, biplot_type = "form")
+```
+
+Si necessitem reutilitzar les coordenades, `return_data = TRUE` retorna les dades
+d'observacions, les dades de les variables i el gràfic.
+
+```{r clr-return}
+resultat <- clr_biplot(X6, group = grup, return_data = TRUE)
+names(resultat)
+```
+
+## Biplot de log-contrastos
+
+`logcontrast_biplot()` representa les observacions segons dos contrastos definits
+per l'usuari. Cada columna de `lc` ha de sumar zero. Aquí, el primer eix compara
+les parts 1 i 2, i el segon compara les parts 3 i 4.
+
+```{r logcontrast}
+lc <- cbind(
+  `Part 1 / Part 2` = c(1, -1, 0, 0, 0, 0),
+  `Part 3 / Part 4` = c(0, 0, 1, -1, 0, 0)
+)
+
+logcontrast_biplot(X6, lc, group = grup)
+```
+
+## Dendrograma de balanços
+
+`balance_dendrogram()` ajuda a interpretar una base de balanços. La matriu `B`
+descriu quines parts es comparen a cada bifurcació. Podem obtenir-ne una
+automàticament amb `coda.base::pb_basis()`.
+
+```{r balance-dendrogram}
+B <- coda.base::pb_basis(X6, method = "exact")
+balance_dendrogram(X6, B, group = grup)
+```
+
+## Resum de funcions
+
+| Funció | Ús principal |
+|---|---|
+| `ternary_plot()` | Crear ràpidament un diagrama ternari complet. |
+| `ternary_frame()` | Definir la transformació i les etiquetes ternàries. |
+| `ternary_base()` | Crear el triangle base. |
+| `add_ternary_grid()` | Afegir línies de graella. |
+| `add_ternary_points()` | Afegir observacions. |
+| `add_ternary_path()` | Afegir un camí de composicions ordenades. |
+| `add_ternary_pc()` | Afegir direccions de components principals. |
+| `ternary_coords()` | Obtenir coordenades per a capes personalitzades. |
+| `geometric_mean_barplot()` | Comparar parts i grups amb mitjanes geomètriques. |
+| `clr_biplot()` | Explorar observacions i parts en coordenades clr. |
+| `logcontrast_biplot()` | Visualitzar dos log-contrastos definits per l'usuari. |
+| `balance_dendrogram()` | Interpretar una base de balanços. |
+
+Per començar, normalment n'hi ha prou amb `ternary_plot()` per a tres parts i
+`clr_biplot()` per a composicions de dimensió més gran. La resta de funcions
+ofereixen més control o responen a preguntes més específiques.

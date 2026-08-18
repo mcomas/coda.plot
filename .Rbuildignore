@@ -4,3 +4,5 @@ testing
 R_test
 ^\.positai$
 ^\.claude$
+^_pkgdown\.yml$
+^docs$

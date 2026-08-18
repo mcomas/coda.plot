@@ -34,3 +34,9 @@ for common plotting techniques in compositional data analysis.
 - [`ternary_plot()`](https://mcomas.github.io/coda.plot/reference/ternary_plot.md)
   : Ternary plot for compositional data (D = 3)
 
+# Articles
+
+### All vignettes
+
+- [Introducció a
+  coda.plot](https://mcomas.github.io/coda.plot/articles/getting-started.md):
