@@ -1,13 +1,13 @@
-# Introducció a coda.plot
+# Getting started with coda.plot
 
-`coda.plot` proporciona gràfics senzills per explorar dades
-composicionals. En aquest tipus de dades, cada fila descriu com es
-reparteix un total entre diverses parts. Per exemple, una barreja pot
-estar formada per proteïna, greix i carbohidrats.
+`coda.plot` provides simple plots for exploring compositional data. In
+this type of data, each row describes how a total is distributed among
+several parts. For example, a mixture may consist of protein, fat, and
+carbohydrates.
 
-La idea més important és que totes les parts han de ser **estrictament
-positives**. No cal que les files sumin 1 o 100: les funcions treballen
-amb les proporcions relatives.
+The most important requirement is that all parts must be **strictly
+positive**. Rows do not need to sum to 1 or 100: the functions work with
+relative proportions.
 
 ``` r
 library(coda.plot)
@@ -20,73 +20,74 @@ library(coda.plot)
 
 set.seed(2026)
 X <- matrix(rexp(90, rate = 1), ncol = 3)
-colnames(X) <- c("Proteina", "Greix", "Carbohidrats")
-grup <- factor(rep(c("Control", "Tractament"), each = 15))
+colnames(X) <- c("Protein", "Fat", "Carbohydrates")
+group <- factor(rep(c("Control", "Treatment"), each = 15))
 
 head(X)
-#>       Proteina     Greix Carbohidrats
-#> [1,] 0.3973469 0.7499553    0.3302451
-#> [2,] 0.1130610 2.8804064    1.1843942
-#> [3,] 1.5074140 0.2041778    2.1363013
-#> [4,] 0.8360404 1.8247179    1.7945151
-#> [5,] 0.1107380 0.3626434    1.8339835
-#> [6,] 4.0741295 0.4318313    0.3468551
+#>        Protein       Fat Carbohydrates
+#> [1,] 0.3973469 0.7499553     0.3302451
+#> [2,] 0.1130610 2.8804064     1.1843942
+#> [3,] 1.5074140 0.2041778     2.1363013
+#> [4,] 0.8360404 1.8247179     1.7945151
+#> [5,] 0.1107380 0.3626434     1.8339835
+#> [6,] 4.0741295 0.4318313     0.3468551
 ```
 
-## Diagrama ternari ràpid
+## A quick ternary diagram
 
-Quan hi ha exactament tres parts,
+When there are exactly three parts,
 [`ternary_plot()`](https://mcomas.github.io/coda.plot/reference/ternary_plot.md)
-és la manera més directa de representar-les. Cada punt correspon a una
-fila de `X`, i la proximitat a un vèrtex indica un pes relatiu més gran
-de la part que hi apareix escrita.
+is the most direct way to display them. Each point corresponds to a row
+of `X`. A point closer to a vertex has a larger relative proportion of
+the part shown at that vertex.
 
 ``` r
-ternary_plot(X, group = grup)
+ternary_plot(X, group = group)
 ```
 
 ![](getting-started_files/figure-html/ternary-plot-1.png)
 
-Amb `center = TRUE` el gràfic se centra en la composició mitjana.
-`scale = TRUE` estandarditza la variabilitat, i `show_pc = TRUE` afegeix
-les dues direccions principals de variació.
+With `center = TRUE`, the plot is centred on the mean composition.
+`scale = TRUE` standardises variability, while `show_pc = TRUE` adds the
+first two principal directions of variation.
 
 ``` r
-ternary_plot(X, group = grup, center = TRUE, scale = TRUE, show_pc = TRUE)
+ternary_plot(X, group = group, center = TRUE, scale = TRUE, show_pc = TRUE)
 ```
 
 ![](getting-started_files/figure-html/ternary-transformed-1.png)
 
-## Construir un diagrama ternari per capes
+## Building a ternary diagram layer by layer
 
-La interfície modular és útil quan volem controlar cada element del
-gràfic. Primer,
+The modular interface is useful when you want to control each plot
+element. First,
 [`ternary_frame()`](https://mcomas.github.io/coda.plot/reference/ternary_frame.md)
-defineix la transformació i les etiquetes. Després,
+defines the transformation and labels. Next,
 [`ternary_base()`](https://mcomas.github.io/coda.plot/reference/ternary_base.md)
-crea el triangle, i les funcions `add_ternary_*()` hi afegeixen capes.
+creates the triangle, and the `add_ternary_*()` functions add layers to
+it.
 
 ``` r
-marc <- ternary_frame(X, labels = c("P", "G", "C"))
+frame <- ternary_frame(X, labels = c("P", "F", "C"))
 
-p <- ternary_base(marc, show_grid = FALSE)
+p <- ternary_base(frame, show_grid = FALSE)
 p <- add_ternary_grid(p, ticks = c(0.25, 0.50, 0.75), colour = "grey80")
 #> Warning: Duplicated aesthetics after name standardisation: colour
 #> Duplicated aesthetics after name standardisation: colour
 #> Duplicated aesthetics after name standardisation: colour
-p <- add_ternary_points(p, X, group = grup, size = 2)
+p <- add_ternary_points(p, X, group = group, size = 2)
 p
 ```
 
 ![](getting-started_files/figure-html/ternary-layers-1.png)
 
 [`add_ternary_path()`](https://mcomas.github.io/coda.plot/reference/add_ternary_path.md)
-uneix composicions ordenades. En aquest exemple, el camí mostra una
-transició gradual des d’una composició rica en proteïna fins a una
-composició rica en carbohidrats.
+joins ordered compositions. In this example, the path shows a gradual
+transition from a protein-rich composition to a carbohydrate-rich
+composition.
 
 ``` r
-cami <- rbind(
+path <- rbind(
   c(8, 1, 1),
   c(6, 2, 2),
   c(4, 3, 3),
@@ -94,32 +95,32 @@ cami <- rbind(
   c(1, 2, 7)
 )
 
-p <- ternary_base(ternary_frame(cami, labels = colnames(X)))
-p <- add_ternary_path(p, cami, colour = "#0072B2", linewidth = 1)
-add_ternary_points(p, cami, colour = "#0072B2", size = 2)
+p <- ternary_base(ternary_frame(path, labels = colnames(X)))
+p <- add_ternary_path(p, path, colour = "#0072B2", linewidth = 1)
+add_ternary_points(p, path, colour = "#0072B2", size = 2)
 ```
 
 ![](getting-started_files/figure-html/ternary-path-1.png)
 
 [`add_ternary_pc()`](https://mcomas.github.io/coda.plot/reference/add_ternary_pc.md)
-permet afegir les direccions principals manualment. És l’equivalent
-modular de `show_pc = TRUE`.
+adds principal directions manually. It is the modular equivalent of
+`show_pc = TRUE`.
 
 ``` r
 p <- ternary_base(ternary_frame(X, center = TRUE))
-p <- add_ternary_points(p, X, group = grup)
+p <- add_ternary_points(p, X, group = group)
 add_ternary_pc(p, X, colour = "black", linewidth = 0.7)
 ```
 
 ![](getting-started_files/figure-html/ternary-pc-1.png)
 
-Finalment,
+Finally,
 [`ternary_coords()`](https://mcomas.github.io/coda.plot/reference/ternary_coords.md)
-retorna les coordenades que s’utilitzen per dibuixar. És útil per
-preparar anotacions o capes personalitzades amb `ggplot2`.
+returns the coordinates used for plotting. This is useful for preparing
+annotations or custom `ggplot2` layers.
 
 ``` r
-coords <- ternary_coords(marc, X, group = grup)
+coords <- ternary_coords(frame, X, group = group)
 head(coords)
 #>          c1        c2        c3         .A         .B         .C        .x
 #> 1 0.3973469 0.7499553 0.3302451 0.26892332 0.50756770 0.22350898 0.3579706
@@ -137,35 +138,35 @@ head(coords)
 #> 6 0.72706234 Control
 ```
 
-## Comparar grups amb mitjanes geomètriques
+## Comparing groups with geometric means
 
 [`geometric_mean_barplot()`](https://mcomas.github.io/coda.plot/reference/geometric_mean_barplot.md)
-compara les parts entre grups. Les barres representen desviacions
-respecte de la mitjana global; `include_boxplot = TRUE` també mostra la
-variabilitat de les observacions.
+compares parts across groups. Bars represent deviations from the overall
+mean; `include_boxplot = TRUE` also shows the variability among
+observations.
 
 ``` r
-geometric_mean_barplot(X, grup, include_boxplot = TRUE)
+geometric_mean_barplot(X, group, include_boxplot = TRUE)
 ```
 
 ![](getting-started_files/figure-html/geometric-means-1.png)
 
-Amb `clr_scale = TRUE`, el càlcul es fa en coordenades clr, adequades
-per interpretar diferències relatives entre parts.
+With `clr_scale = TRUE`, calculations use clr coordinates, which are
+appropriate for interpreting relative differences among parts.
 
 ``` r
-geometric_mean_barplot(X, grup, clr_scale = TRUE)
+geometric_mean_barplot(X, group, clr_scale = TRUE)
 ```
 
 ![](getting-started_files/figure-html/geometric-means-clr-1.png)
 
-## Biplot clr
+## CLR biplot
 
-Per a composicions amb tres parts o més,
+For compositions with three or more parts,
 [`clr_biplot()`](https://mcomas.github.io/coda.plot/reference/clr_biplot.md)
-resumeix les observacions i les parts en dues dimensions. Punts propers
-representen observacions semblants; les direccions de les etiquetes
-indiquen quines parts expliquen la variació.
+summarises observations and parts in two dimensions. Nearby points
+represent similar observations; label directions indicate which parts
+explain the variation.
 
 ``` r
 X6 <- matrix(rexp(180), ncol = 6)
@@ -173,39 +174,39 @@ colnames(X6) <- paste0("Part_", 1:6)
 ```
 
 ``` r
-clr_biplot(X6, group = grup)
+clr_biplot(X6, group = group)
 #> Ignoring unknown labels:
 #> • shape : ""
 ```
 
 ![](getting-started_files/figure-html/clr-biplot-1.png)
 
-El tipus `"covariance"` posa l’èmfasi en les observacions, mentre que
-`"form"` facilita la lectura de les relacions entre parts.
+The `"covariance"` type emphasises observations, whereas `"form"` makes
+relationships among parts easier to read.
 
 ``` r
-clr_biplot(X6, group = grup, biplot_type = "form")
+clr_biplot(X6, group = group, biplot_type = "form")
 #> Ignoring unknown labels:
 #> • shape : ""
 ```
 
 ![](getting-started_files/figure-html/clr-form-1.png)
 
-Si necessitem reutilitzar les coordenades, `return_data = TRUE` retorna
-les dades d’observacions, les dades de les variables i el gràfic.
+If you need to reuse the coordinates, `return_data = TRUE` returns the
+observation data, variable data, and plot.
 
 ``` r
-resultat <- clr_biplot(X6, group = grup, return_data = TRUE)
-names(resultat)
+result <- clr_biplot(X6, group = group, return_data = TRUE)
+names(result)
 #> [1] "obs"  "vars" "plot"
 ```
 
-## Biplot de log-contrastos
+## Log-contrast biplot
 
 [`logcontrast_biplot()`](https://mcomas.github.io/coda.plot/reference/logcontrast_biplot.md)
-representa les observacions segons dos contrastos definits per l’usuari.
-Cada columna de `lc` ha de sumar zero. Aquí, el primer eix compara les
-parts 1 i 2, i el segon compara les parts 3 i 4.
+displays observations according to two user-defined contrasts. Each
+column of `lc` must sum to zero. Here, the first axis compares parts 1
+and 2, while the second compares parts 3 and 4.
 
 ``` r
 lc <- cbind(
@@ -213,48 +214,47 @@ lc <- cbind(
   `Part 3 / Part 4` = c(0, 0, 1, -1, 0, 0)
 )
 
-logcontrast_biplot(X6, lc, group = grup)
+logcontrast_biplot(X6, lc, group = group)
 #> Ignoring unknown labels:
 #> • shape : ""
 ```
 
 ![](getting-started_files/figure-html/logcontrast-1.png)
 
-## Dendrograma de balanços
+## Balance dendrogram
 
 [`balance_dendrogram()`](https://mcomas.github.io/coda.plot/reference/balance_dendrogram.md)
-ajuda a interpretar una base de balanços. La matriu `B` descriu quines
-parts es comparen a cada bifurcació. Podem obtenir-ne una automàticament
-amb
+helps interpret a balance basis. The `B` matrix describes which parts
+are compared at each split. One can be generated automatically with
 [`coda.base::pb_basis()`](https://mcomas.net/coda.base/reference/pb_basis.html).
 
 ``` r
 B <- coda.base::pb_basis(X6, method = "exact")
-balance_dendrogram(X6, B, group = grup)
+balance_dendrogram(X6, B, group = group)
 ```
 
 ![](getting-started_files/figure-html/balance-dendrogram-1.png)
 
-## Resum de funcions
+## Function summary
 
-| Funció | Ús principal |
+| Function | Main use |
 |----|----|
-| [`ternary_plot()`](https://mcomas.github.io/coda.plot/reference/ternary_plot.md) | Crear ràpidament un diagrama ternari complet. |
-| [`ternary_frame()`](https://mcomas.github.io/coda.plot/reference/ternary_frame.md) | Definir la transformació i les etiquetes ternàries. |
-| [`ternary_base()`](https://mcomas.github.io/coda.plot/reference/ternary_base.md) | Crear el triangle base. |
-| [`add_ternary_grid()`](https://mcomas.github.io/coda.plot/reference/add_ternary_grid.md) | Afegir línies de graella. |
-| [`add_ternary_points()`](https://mcomas.github.io/coda.plot/reference/add_ternary_points.md) | Afegir observacions. |
-| [`add_ternary_path()`](https://mcomas.github.io/coda.plot/reference/add_ternary_path.md) | Afegir un camí de composicions ordenades. |
-| [`add_ternary_pc()`](https://mcomas.github.io/coda.plot/reference/add_ternary_pc.md) | Afegir direccions de components principals. |
-| [`ternary_coords()`](https://mcomas.github.io/coda.plot/reference/ternary_coords.md) | Obtenir coordenades per a capes personalitzades. |
-| [`geometric_mean_barplot()`](https://mcomas.github.io/coda.plot/reference/geometric_mean_barplot.md) | Comparar parts i grups amb mitjanes geomètriques. |
-| [`clr_biplot()`](https://mcomas.github.io/coda.plot/reference/clr_biplot.md) | Explorar observacions i parts en coordenades clr. |
-| [`logcontrast_biplot()`](https://mcomas.github.io/coda.plot/reference/logcontrast_biplot.md) | Visualitzar dos log-contrastos definits per l’usuari. |
-| [`balance_dendrogram()`](https://mcomas.github.io/coda.plot/reference/balance_dendrogram.md) | Interpretar una base de balanços. |
+| [`ternary_plot()`](https://mcomas.github.io/coda.plot/reference/ternary_plot.md) | Quickly create a complete ternary diagram. |
+| [`ternary_frame()`](https://mcomas.github.io/coda.plot/reference/ternary_frame.md) | Define the ternary transformation and labels. |
+| [`ternary_base()`](https://mcomas.github.io/coda.plot/reference/ternary_base.md) | Create the base triangle. |
+| [`add_ternary_grid()`](https://mcomas.github.io/coda.plot/reference/add_ternary_grid.md) | Add grid lines. |
+| [`add_ternary_points()`](https://mcomas.github.io/coda.plot/reference/add_ternary_points.md) | Add observations. |
+| [`add_ternary_path()`](https://mcomas.github.io/coda.plot/reference/add_ternary_path.md) | Add a path of ordered compositions. |
+| [`add_ternary_pc()`](https://mcomas.github.io/coda.plot/reference/add_ternary_pc.md) | Add principal component directions. |
+| [`ternary_coords()`](https://mcomas.github.io/coda.plot/reference/ternary_coords.md) | Obtain coordinates for custom layers. |
+| [`geometric_mean_barplot()`](https://mcomas.github.io/coda.plot/reference/geometric_mean_barplot.md) | Compare parts and groups with geometric means. |
+| [`clr_biplot()`](https://mcomas.github.io/coda.plot/reference/clr_biplot.md) | Explore observations and parts in clr coordinates. |
+| [`logcontrast_biplot()`](https://mcomas.github.io/coda.plot/reference/logcontrast_biplot.md) | Display two user-defined log-contrasts. |
+| [`balance_dendrogram()`](https://mcomas.github.io/coda.plot/reference/balance_dendrogram.md) | Interpret a balance basis. |
 
-Per començar, normalment n’hi ha prou amb
+To get started,
 [`ternary_plot()`](https://mcomas.github.io/coda.plot/reference/ternary_plot.md)
-per a tres parts i
+is usually enough for three-part compositions, while
 [`clr_biplot()`](https://mcomas.github.io/coda.plot/reference/clr_biplot.md)
-per a composicions de dimensió més gran. La resta de funcions ofereixen
-més control o responen a preguntes més específiques.
+is a good choice for higher-dimensional compositions. The remaining
+functions offer more control or answer more specific questions.

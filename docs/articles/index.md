@@ -2,5 +2,5 @@
 
 ### All vignettes
 
-- [Introducció a
+- [Getting started with
   coda.plot](https://mcomas.github.io/coda.plot/articles/getting-started.md):
