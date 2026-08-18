@@ -181,8 +181,11 @@ clr_biplot(X6, group = group)
 
 ![](getting-started_files/figure-html/clr-biplot-1.png)
 
-The `"covariance"` type emphasises observations, whereas `"form"` makes
-relationships among parts easier to read.
+The `"covariance"` type emphasises the covariance structure among parts,
+so the lengths and angles of the variable rays are the main elements to
+interpret. The `"form"` type emphasises the geometry of the
+observations, so distances between points are the main elements to
+interpret.
 
 ``` r
 clr_biplot(X6, group = group, biplot_type = "form")

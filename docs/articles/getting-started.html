@@ -206,8 +206,11 @@ explain the variation.</p>
 <span><span class="co">#&gt; Ignoring unknown labels:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">shape</span> : <span style="color: #0000BB;">""</span></span></span></code></pre></div>
 <p><img src="getting-started_files/figure-html/clr-biplot-1.png" class="r-plt" alt="" width="672"></p>
-<p>The <code>"covariance"</code> type emphasises observations, whereas
-<code>"form"</code> makes relationships among parts easier to read.</p>
+<p>The <code>"covariance"</code> type emphasises the covariance
+structure among parts, so the lengths and angles of the variable rays
+are the main elements to interpret. The <code>"form"</code> type
+emphasises the geometry of the observations, so distances between points
+are the main elements to interpret.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/clr_biplot.html">clr_biplot</a></span><span class="op">(</span><span class="va">X6</span>, group <span class="op">=</span> <span class="va">group</span>, biplot_type <span class="op">=</span> <span class="st">"form"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Ignoring unknown labels:</span></span>
