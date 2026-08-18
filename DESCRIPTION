@@ -10,6 +10,8 @@ Description: Provides a collection of easy-to-use functions for creating
     for common plotting techniques in compositional data analysis.
 Depends: R (>= 3.5), coda.base (>= 1.0.0)
 License: GPL
+URL: https://mcomas.github.io/coda.plot/, https://github.com/mcomas/coda.plot
+BugReports: https://github.com/mcomas/coda.plot/issues
 Encoding: UTF-8
 Imports: ggplot2 (>= 3.5.0), ggrepel
 LazyData: true
