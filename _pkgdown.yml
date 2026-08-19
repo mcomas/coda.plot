@@ -2,4 +2,5 @@ url: https://mcomas.github.io/coda.plot/
 destination: docs
 
 template:
+  package: tidytemplate
   bootstrap: 5

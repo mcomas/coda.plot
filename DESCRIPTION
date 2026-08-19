@@ -20,3 +20,4 @@ Suggests:
 VignetteBuilder: knitr
 LazyData: true
 RoxygenNote: 7.3.2
+Config/Needs/website: tidyverse/tidytemplate
