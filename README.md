@@ -38,7 +38,7 @@ library(coda.plot)
 | [`balance_dendrogram()`](reference/balance_dendrogram.html) | Visualise and interpret a balance basis. |
 
 See the [function reference](reference/index.html) for the complete API and the
-[getting-started guide](articles/getting-started.html) for a more detailed
+[getting-started guide](articles/coda-plot.html) for a more detailed
 walkthrough.
 
 ## Examples

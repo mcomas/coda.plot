@@ -45,7 +45,7 @@ the part shown at that vertex.
 ternary_plot(X, group = group)
 ```
 
-![](getting-started_files/figure-html/ternary-plot-1.png)
+![](coda-plot_files/figure-html/ternary-plot-1.png)
 
 With `center = TRUE`, the plot is centred on the mean composition.
 `scale = TRUE` standardises variability, while `show_pc = TRUE` adds the
@@ -55,7 +55,7 @@ first two principal directions of variation.
 ternary_plot(X, group = group, center = TRUE, scale = TRUE, show_pc = TRUE)
 ```
 
-![](getting-started_files/figure-html/ternary-transformed-1.png)
+![](coda-plot_files/figure-html/ternary-transformed-1.png)
 
 ## Building a ternary diagram layer by layer
 
@@ -79,7 +79,7 @@ p <- add_ternary_points(p, X, group = group, size = 2)
 p
 ```
 
-![](getting-started_files/figure-html/ternary-layers-1.png)
+![](coda-plot_files/figure-html/ternary-layers-1.png)
 
 [`add_ternary_path()`](https://mcomas.github.io/coda.plot/reference/add_ternary_path.md)
 joins ordered compositions. In this example, the path shows a gradual
@@ -100,7 +100,7 @@ p <- add_ternary_path(p, path, colour = "#0072B2", linewidth = 1)
 add_ternary_points(p, path, colour = "#0072B2", size = 2)
 ```
 
-![](getting-started_files/figure-html/ternary-path-1.png)
+![](coda-plot_files/figure-html/ternary-path-1.png)
 
 [`add_ternary_pc()`](https://mcomas.github.io/coda.plot/reference/add_ternary_pc.md)
 adds principal directions manually. It is the modular equivalent of
@@ -112,7 +112,7 @@ p <- add_ternary_points(p, X, group = group)
 add_ternary_pc(p, X, colour = "black", linewidth = 0.7)
 ```
 
-![](getting-started_files/figure-html/ternary-pc-1.png)
+![](coda-plot_files/figure-html/ternary-pc-1.png)
 
 Finally,
 [`ternary_coords()`](https://mcomas.github.io/coda.plot/reference/ternary_coords.md)
@@ -149,7 +149,7 @@ observations.
 geometric_mean_barplot(X, group, include_boxplot = TRUE)
 ```
 
-![](getting-started_files/figure-html/geometric-means-1.png)
+![](coda-plot_files/figure-html/geometric-means-1.png)
 
 With `clr_scale = TRUE`, calculations use clr coordinates, which are
 appropriate for interpreting relative differences among parts.
@@ -158,7 +158,7 @@ appropriate for interpreting relative differences among parts.
 geometric_mean_barplot(X, group, clr_scale = TRUE)
 ```
 
-![](getting-started_files/figure-html/geometric-means-clr-1.png)
+![](coda-plot_files/figure-html/geometric-means-clr-1.png)
 
 ## CLR biplot
 
@@ -179,7 +179,7 @@ clr_biplot(X6, group = group)
 #> • shape : ""
 ```
 
-![](getting-started_files/figure-html/clr-biplot-1.png)
+![](coda-plot_files/figure-html/clr-biplot-1.png)
 
 The `"covariance"` type emphasises the covariance structure among parts,
 so the lengths and angles of the variable rays are the main elements to
@@ -193,7 +193,7 @@ clr_biplot(X6, group = group, biplot_type = "form")
 #> • shape : ""
 ```
 
-![](getting-started_files/figure-html/clr-form-1.png)
+![](coda-plot_files/figure-html/clr-form-1.png)
 
 If you need to reuse the coordinates, `return_data = TRUE` returns the
 observation data, variable data, and plot.
@@ -222,7 +222,7 @@ logcontrast_biplot(X6, lc, group = group)
 #> • shape : ""
 ```
 
-![](getting-started_files/figure-html/logcontrast-1.png)
+![](coda-plot_files/figure-html/logcontrast-1.png)
 
 ## Balance dendrogram
 
@@ -236,7 +236,7 @@ B <- coda.base::pb_basis(X6, method = "exact")
 balance_dendrogram(X6, B, group = group)
 ```
 
-![](getting-started_files/figure-html/balance-dendrogram-1.png)
+![](coda-plot_files/figure-html/balance-dendrogram-1.png)
 
 ## Function summary
 

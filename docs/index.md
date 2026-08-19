@@ -38,8 +38,8 @@ library(coda.plot)
 See the [function
 reference](https://mcomas.github.io/coda.plot/reference/index.md) for
 the complete API and the [getting-started
-guide](https://mcomas.github.io/coda.plot/articles/getting-started.md)
-for a more detailed walkthrough.
+guide](https://mcomas.github.io/coda.plot/articles/coda-plot.md) for a
+more detailed walkthrough.
 
 ## Examples
 

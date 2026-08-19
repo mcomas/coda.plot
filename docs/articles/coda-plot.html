@@ -28,13 +28,8 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="active nav-item"><a class="nav-link" href="../articles/coda-plot.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/getting-started.html">Getting started with coda.plot</a></li>
-  </ul>
-</li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -59,8 +54,8 @@
 Comas-Cufí</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/mcomas/coda.plot/blob/HEAD/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
-      <div class="d-none name"><code>getting-started.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/mcomas/coda.plot/blob/HEAD/vignettes/coda-plot.Rmd" class="external-link"><code>vignettes/coda-plot.Rmd</code></a></small>
+      <div class="d-none name"><code>coda-plot.Rmd</code></div>
     </div>
 
     
@@ -103,14 +98,14 @@ the most direct way to display them. Each point corresponds to a row of
 proportion of the part shown at that vertex.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ternary_plot.html">ternary_plot</a></span><span class="op">(</span><span class="va">X</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/ternary-plot-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="coda-plot_files/figure-html/ternary-plot-1.png" class="r-plt" alt="" width="672"></p>
 <p>With <code>center = TRUE</code>, the plot is centred on the mean
 composition. <code>scale = TRUE</code> standardises variability, while
 <code>show_pc = TRUE</code> adds the first two principal directions of
 variation.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ternary_plot.html">ternary_plot</a></span><span class="op">(</span><span class="va">X</span>, group <span class="op">=</span> <span class="va">group</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span>, show_pc <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/ternary-transformed-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="coda-plot_files/figure-html/ternary-transformed-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="building-a-ternary-diagram-layer-by-layer">Building a ternary diagram layer by layer<a class="anchor" aria-label="anchor" href="#building-a-ternary-diagram-layer-by-layer"></a>
@@ -129,7 +124,7 @@ the <code>add_ternary_*()</code> functions add layers to it.</p>
 <span><span class="co">#&gt; Duplicated aesthetics after name standardisation: <span style="color: #00BB00;">colour</span></span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_ternary_points.html">add_ternary_points</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">X</span>, group <span class="op">=</span> <span class="va">group</span>, size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="va">p</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/ternary-layers-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="coda-plot_files/figure-html/ternary-layers-1.png" class="r-plt" alt="" width="672"></p>
 <p><code><a href="../reference/add_ternary_path.html">add_ternary_path()</a></code> joins ordered compositions. In this
 example, the path shows a gradual transition from a protein-rich
 composition to a carbohydrate-rich composition.</p>
@@ -145,14 +140,14 @@ composition to a carbohydrate-rich composition.</p>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ternary_base.html">ternary_base</a></span><span class="op">(</span><span class="fu"><a href="../reference/ternary_frame.html">ternary_frame</a></span><span class="op">(</span><span class="va">path</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_ternary_path.html">add_ternary_path</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">path</span>, colour <span class="op">=</span> <span class="st">"#0072B2"</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/add_ternary_points.html">add_ternary_points</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">path</span>, colour <span class="op">=</span> <span class="st">"#0072B2"</span>, size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/ternary-path-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="coda-plot_files/figure-html/ternary-path-1.png" class="r-plt" alt="" width="672"></p>
 <p><code><a href="../reference/add_ternary_pc.html">add_ternary_pc()</a></code> adds principal directions manually. It
 is the modular equivalent of <code>show_pc = TRUE</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ternary_base.html">ternary_base</a></span><span class="op">(</span><span class="fu"><a href="../reference/ternary_frame.html">ternary_frame</a></span><span class="op">(</span><span class="va">X</span>, center <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_ternary_points.html">add_ternary_points</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">X</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/add_ternary_pc.html">add_ternary_pc</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">X</span>, colour <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/ternary-pc-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="coda-plot_files/figure-html/ternary-pc-1.png" class="r-plt" alt="" width="672"></p>
 <p>Finally, <code><a href="../reference/ternary_coords.html">ternary_coords()</a></code> returns the coordinates used
 for plotting. This is useful for preparing annotations or custom
 <code>ggplot2</code> layers.</p>
@@ -183,13 +178,13 @@ Bars represent deviations from the overall mean;
 observations.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/geometric_mean_barplot.html">geometric_mean_barplot</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">group</span>, include_boxplot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/geometric-means-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="coda-plot_files/figure-html/geometric-means-1.png" class="r-plt" alt="" width="672"></p>
 <p>With <code>clr_scale = TRUE</code>, calculations use clr coordinates,
 which are appropriate for interpreting relative differences among
 parts.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/geometric_mean_barplot.html">geometric_mean_barplot</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">group</span>, clr_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/geometric-means-clr-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="coda-plot_files/figure-html/geometric-means-clr-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="clr-biplot">CLR biplot<a class="anchor" aria-label="anchor" href="#clr-biplot"></a>
@@ -205,7 +200,7 @@ explain the variation.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/clr_biplot.html">clr_biplot</a></span><span class="op">(</span><span class="va">X6</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Ignoring unknown labels:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">shape</span> : <span style="color: #0000BB;">""</span></span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/clr-biplot-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="coda-plot_files/figure-html/clr-biplot-1.png" class="r-plt" alt="" width="672"></p>
 <p>The <code>"covariance"</code> type emphasises the covariance
 structure among parts, so the lengths and angles of the variable rays
 are the main elements to interpret. The <code>"form"</code> type
@@ -215,7 +210,7 @@ are the main elements to interpret.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/clr_biplot.html">clr_biplot</a></span><span class="op">(</span><span class="va">X6</span>, group <span class="op">=</span> <span class="va">group</span>, biplot_type <span class="op">=</span> <span class="st">"form"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Ignoring unknown labels:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">shape</span> : <span style="color: #0000BB;">""</span></span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/clr-form-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="coda-plot_files/figure-html/clr-form-1.png" class="r-plt" alt="" width="672"></p>
 <p>If you need to reuse the coordinates, <code>return_data = TRUE</code>
 returns the observation data, variable data, and plot.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -239,7 +234,7 @@ compares parts 3 and 4.</p>
 <span><span class="fu"><a href="../reference/logcontrast_biplot.html">logcontrast_biplot</a></span><span class="op">(</span><span class="va">X6</span>, <span class="va">lc</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Ignoring unknown labels:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">shape</span> : <span style="color: #0000BB;">""</span></span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/logcontrast-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="coda-plot_files/figure-html/logcontrast-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="balance-dendrogram">Balance dendrogram<a class="anchor" aria-label="anchor" href="#balance-dendrogram"></a>
@@ -251,7 +246,7 @@ split. One can be generated automatically with
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">B</span> <span class="op">&lt;-</span> <span class="fu">coda.base</span><span class="fu">::</span><span class="fu"><a href="https://mcomas.net/coda.base/reference/pb_basis.html" class="external-link">pb_basis</a></span><span class="op">(</span><span class="va">X6</span>, method <span class="op">=</span> <span class="st">"exact"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/balance_dendrogram.html">balance_dendrogram</a></span><span class="op">(</span><span class="va">X6</span>, <span class="va">B</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/balance-dendrogram-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="coda-plot_files/figure-html/balance-dendrogram-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="function-summary">Function summary<a class="anchor" aria-label="anchor" href="#function-summary"></a>

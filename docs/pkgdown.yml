@@ -2,8 +2,8 @@ pandoc: 3.7.0.2
 pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
-  getting-started: getting-started.html
-last_built: 2026-08-19T05:10Z
+  coda-plot: coda-plot.html
+last_built: 2026-08-19T06:37Z
 urls:
   reference: https://mcomas.github.io/coda.plot/reference
   article: https://mcomas.github.io/coda.plot/articles
